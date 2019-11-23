@@ -1,0 +1,22 @@
+.container.page1920 {
+  .wrap {
+    height: calc(100vh - 55px);
+    min-height: 617px;
+    .content {
+      max-width: 2048px;
+      height: calc(100vh - 55px);
+      margin: auto;
+      min-height: 617px;
+    }
+  }
+  .wrap-footer {
+    width: 100%;
+    background-color: #222b33;
+    & > /deep/ .footer {
+      width: 100%;
+      max-width: 1920px;
+      background-color: #222b33;
+      margin: auto;
+    }
+  }
+}

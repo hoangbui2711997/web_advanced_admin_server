@@ -1,0 +1,54 @@
+.table__control {
+  position: relative !important;
+  .table__input-search {
+    line-height: initial;
+    font-size: 13px;
+    .select-type {
+      float: right;
+      margin-right: 10px;
+      background-color: #f2f4f5;
+      border: solid thin #cfcfcf;
+      padding: 2px 13px 3px 13px;
+      height: 27px;
+      line-height: initial;
+      select {
+        margin-top: 2px;
+        border: none;
+        background: none;
+        outline: none;
+        color: #666666;
+        width: 100%;
+      }
+    }
+    .search-input {
+      float: right;
+      height: 27px;
+      width: 150px;
+    }
+    .button-block {
+      float: right;
+      margin-left: 10px;
+      button {
+        border-radius: 5px;
+        outline: none;
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 13px;
+        font-weight: bold;
+        padding: 5px 13px 5px 13px;
+        line-height: normal;
+      }
+      .btn-search {
+        color: #fff;
+        background-color: #1EA1F2;
+        border: solid thin transparent;
+        margin-right: 5px;
+      }
+      .btn-reset {
+        color: #1EA1F2;
+        border: solid thin #1EA1F2;
+        background-color: #fff;
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300px" height="300px" viewBox="0 0 300 300" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2" transform="translate(5.000000, 0.000000)" fill-rule="nonzero">
+            <rect id="Rectangle-2-Copy-5" fill="#E63332" x="0" y="101.614764" width="290.657439" height="32.295271" rx="5"></rect>
+            <rect id="Rectangle-2-Copy-6" fill="#11A111" x="0" y="166.205306" width="290.657439" height="32.295271" rx="5"></rect>
+            <polygon id="Shape-Copy-8" fill="#11A111" transform="translate(145.328720, 263.091119) rotate(-270.000000) translate(-145.328720, -263.091119) " points="108.99654 198.500577 108.99654 327.681661 181.6609 263.091119"></polygon>
+            <polygon id="Shape-Copy-9" fill="#E63332" transform="translate(145.328720, 37.024221) scale(1, -1) rotate(-270.000000) translate(-145.328720, -37.024221) " points="108.99654 -27.5663206 108.99654 101.614764 181.6609 37.0242215"></polygon>
+        </g>
+    </g>
+</svg>

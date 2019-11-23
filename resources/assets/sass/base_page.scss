@@ -1,0 +1,481 @@
+// side bar
+$sidebar_position: "left" !default; // left or right
+
+$specialProperties: (
+  'responsive',
+);
+
+$headerTree : (
+  header: (
+    selector: '.header-custom-01',
+    responsive: (
+      query: "screen and (max-width: 1500px)",
+      logo : (
+        selector: '.sidebar__logo',
+      ),
+    ),
+    sidebar : (
+      selector: '.sidebar-custom-01',
+      width: 220px !important,
+      overflow-y: auto,
+      logo: (
+        selector: '.sidebar__logo',
+      ),
+      menu: (
+        item: (
+          selector: '.menu-item',
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1),
+          link: (
+            selector: '.main-link',
+            font-size: 14px,
+            color: #fff,
+          ),
+          icon_arrow: (
+            selector: '.icon-arrow',
+            font-size: 9px,
+            color: #1ea1f2,
+          ),
+          sub_menu: (
+            selector: '.sub-menu-01.sub-menu',
+            sub_menu_item: (
+              selector: '.sub-menu__item',
+            )
+          )
+        ),
+      ),
+    ),
+    logo : (
+      selector : '.logo',
+      width : 200px,
+    ),
+    user: (
+      btn_logout: (
+        selector : '.btn-logout',
+      ),
+      user_email: (
+
+      )
+    )
+  )
+);
+
+// deep-get
+@function map-deep-get-array ($map, $array) {
+  @each $key in $array {
+    $map: map-get($map, $key);
+  }
+
+  @return $map;
+}
+
+// get class list
+@function get-ancestor-selector ($map, $array) {
+  $ancestorSelector: '';
+  @for $index from 1 through length($array) {
+    $map : map-get($map, nth($array, $index));
+    @if map-has-key($map, 'selector') {
+      $selector : map-get($map, 'selector');
+      $ancestorSelector : $ancestorSelector + ' ' + $selector;
+    } @else if($index == length($array)) {
+      @return null;
+    }
+  }
+
+  @return $ancestorSelector;
+}
+
+// get list path
+@function loop-get-list-path ($map, $keyPath: (), $result: ()) {
+  $cpkeyPath: $keyPath;
+
+  @each $key, $value in $map {
+    @if(type-of($value) == 'map') {
+      $keyPath: append($cpkeyPath, $key);
+      $result: loop-get-list-path($value, $keyPath, $result);
+      $result: append($result, $keyPath);
+    }
+  }
+
+  @return $result;
+}
+
+// check item in $value isExisted in $array
+@function isElementOfArray($array, $value) {
+  $newArray: ();
+  @each $item in $value {
+    $newArray: append($newArray, $item);
+    @if (index($array, $item)) {
+      @return $newArray;
+    }
+  }
+
+  @return null;
+}
+
+// call specialProperty
+@mixin callMethodBySpecialProperty($property, $var...) {
+  $map: nth($var, 1);
+  $element: nth($var, 2);
+  $elementHasSpecialProperty: nth($var, 3);
+  $path: nth($var, 4);
+
+  @if ($property == 'responsive') {
+    @include responsive($map, $element, $elementHasSpecialProperty, $path);
+  }
+}
+
+// responsive function
+@mixin responsive($map, $element, $elementHasSpecialProperty, $path) { // $specialProperty, $map, $path, $element
+
+  @if ( map-get($elementHasSpecialProperty, 'query') ) {
+    $eleQuery: map-get($elementHasSpecialProperty, 'query');
+    @if (get-ancestor-selector($map, $path)) {
+      @media #{ unquote($eleQuery) } {
+        #{ get-ancestor-selector($map, $path) } {
+          @each $key, $value in $element {
+            @if ($key != 'selector' and type-of($value) != 'map') {
+              #{$key} : $value;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// render css
+@mixin BeeRenderCssByPath ($map) {
+  $listPath: loop-get-list-path($map);
+
+  @each $path in $listPath {
+    $element : map-deep-get-array($map, $path);
+
+    @if (isElementOfArray($specialProperties, $path)) {
+      $tempArr: isElementOfArray($specialProperties, $path);
+      $specialProperty: nth( $tempArr, length($tempArr) );
+      $elementHasSpecialProperty: map-deep-get-array($map, $tempArr);
+
+      @include callMethodBySpecialProperty($specialProperty, $map, $element, $elementHasSpecialProperty, $path);
+
+    } @elseif (get-ancestor-selector($map, $path)) {
+      #{ get-ancestor-selector($map, $path) } {
+        @each $key, $value in $element {
+          @if ($key != 'selector' and type-of($value) != 'map') {
+            #{$key} : $value;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include BeeRenderCssByPath($headerTree);
+
+.header-app-01 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #222b33;
+  height: 50px;
+  z-index: 999;
+
+  .logo {
+    position: absolute;
+    height: 50px;
+    line-height: 50px;
+    font-size: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 47px;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .sidebar {
+    position: fixed;
+    height: 100%;
+    width: 185px;
+    top: 50px;
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+    background-color: #222b33;
+
+    @if ( $sidebar_position == "left" ) {
+      left: 0;
+      transform: translateX(-100%);
+    } @else if ($sidebar_position == "right") {
+      right: 0;
+      transform: translateX(100%);
+    }
+
+    &.show {
+      transform: translateX(0);
+    }
+
+    .sidebar__logo {
+      display: none;
+    }
+
+    .list-menu{
+      padding-left: 0;
+      margin-bottom: 0;
+      list-style-type: none;
+      & > li{
+        position: relative;
+        .main-link{
+          padding: 10px 30px 10px 25px;
+          width: 100%;
+          font-weight: 700;
+          color: #fff;
+          display: inline-block;
+          line-height: 1.14;
+          transition: all 0.3s ease-in-out;
+          &:focus{
+            text-decoration: none;
+          }
+          &.active{
+            color: #1ea1f2;
+          }
+        }
+
+        .icon-arrow {
+          color: #1ea1f2;
+          font-size: 9px;
+          display: inline-block;
+          position: absolute;
+          top: 15px;
+          right: 15px;
+          transition: all 0.3s ease-in-out;
+          transform-origin: 50% 30%;
+        }
+
+        .sub-menu-wrapper {
+          max-height: 0;
+          overflow: hidden;
+          transition: all 0.4s ease-in-out;
+        }
+
+        .sub-menu {
+          padding: 0 0 20px;
+          list-style-type: none;
+          margin-bottom: 0;
+          background-color: rgba(255, 255, 255, 0.05);
+          .item {
+            .link {
+              display: inline-block;
+              width: 100%;
+              padding-left: 40px;
+              font-size: 12px;
+              color: #fff;
+              line-height: 2.08;
+              transition: all 0.3s ease-in-out;
+              &:hover{
+                color: #1ea1f2;
+                transition: all 0.3s ease-in-out;
+              }
+              &:focus{
+                text-decoration: none;
+              }
+            }
+            a.active{
+              color: #1ea1f2;
+              transition: all 0.4s ease-in-out;
+            }
+          }
+        }
+
+        &.active {
+          .sub-menu-wrapper {
+            max-height: 200px;
+          }
+
+          .icon-arrow {
+            transform: rotateZ(180deg);
+          }
+
+          .main-link {
+            background-color: rgba(255, 255, 255, 0.05);
+          }
+        }
+      }
+    }
+  }
+
+  .user-info{
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    .user-email{
+      display: none;
+    }
+    .btn-logout{
+      border-radius: 5px;
+      background-color: #f0f2f3;
+      color: #333;
+      border: solid thin #cfcfcf;
+      outline: none;
+      font-size: 13px;
+      font-weight: 700;
+      margin-left: 10px;
+      padding: 5px 12px;
+    }
+  }
+
+  .mobile__trigger-close {
+    width: 26px;
+    height: 20px;
+    line-height: 0;
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+
+    span {
+      display: inline-block;
+      height: 2px;
+      width: 26px;
+      background-color: #fff;
+      transition: all 0.3s ease-in-out;
+      margin-top: 9px;
+    }
+
+    &:after,
+    &:before {
+      content: '';
+      display: inline-block;
+      width: 100%;
+      height: 2px;
+      background-color: #fff;
+      position: absolute;
+      top: 2px;
+      left: 0;
+      transition: all 0.3s ease-in-out;
+    }
+
+    &:after {
+      top: auto;
+      bottom: 2px;
+    }
+
+    &.active {
+      span {
+        margin-left: 20px;
+        opacity: 0;
+      }
+
+      &:after {
+        transform: rotateZ(-135deg);
+        bottom: 7px;
+      }
+
+      &:before {
+        top: 10px;
+        transform: rotateZ(135deg);
+      }
+    }
+  }
+}
+
+#content {
+  background-color: #fff;
+  min-width: 1280px;
+
+  .main-content{
+    background-color: #fff;
+    position: relative;
+    box-sizing: content-box;
+    padding-top: 50px;
+    min-height: calc(100vh - 50px);
+
+    .content-section{
+      padding-bottom: 25px;
+      width: 100%;
+    }
+
+    .footer-section{
+      text-align: center;
+      color: #999999;
+      margin-bottom: 20px;
+      position: absolute;
+      width: calc(100% - 220px);
+      bottom: 0;
+    }
+  }
+}
+
+
+@media screen and (min-width: 992px) {
+  .header-app-01 {
+    background-color: #f2f4f5;
+    height: 50px;
+    .mobile__trigger-close {
+      display: none;
+    }
+
+    .user-info {
+      .user-email {
+        display: inline-block;
+        color: #1ea1f2;
+        float: left;
+        margin-top: 4px;
+        .icon-user,
+        .email {
+          color: #1ea1f2;
+          vertical-align: middle;
+        }
+
+        .icon-user {
+          font-size: 18px;
+          margin-right: 5px;
+        }
+      }
+    }
+
+    .logo {
+      display: none;
+    }
+
+    .sidebar {
+      top: 0;
+      left: 0;
+      right: auto;
+      transform: translateX(0);
+      width: 185px;
+      background-color: #222b33;
+
+      .sidebar__logo {
+        display: block;
+        width: 47px;
+        box-sizing: content-box;
+        padding: 10px 0 9px 25px;
+        img {
+          width: 100%;
+        }
+      }
+
+      .list-menu > li {
+        .inline-link .main-link{
+          color: #fff;
+        }
+
+        .icon-arrow {
+          color: #1ea1f2;
+        }
+      }
+    }
+  }
+
+  .main-content {
+    padding-left: 220px;
+  }
+
+  #content .main-content{
+    background-color: #fff;
+    padding-top: 50px;
+    min-height: calc(100vh - 50px);
+  }
+}

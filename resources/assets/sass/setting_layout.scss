@@ -1,0 +1,24 @@
+// header 
+$logo_width: 50px;
+// $header_background: red;
+// $header_height: 50px;
+// $trigger_close_color: #fff;
+
+// side bar
+// $sidebar_position: "left"; // left or right
+// $sidebar_text_color: #fff;
+// $sidebar_background: #222b33;
+// $sidebar_width: 185px;
+// $icon_arrow_color--desktop: ;
+
+// // main_content
+// $main_content_background_color: #fff;
+
+
+// <--desktop
+$header_background--desktop: #f2f4f5;
+// -->end
+
+
+// if you wanna setting css for desktop, you have to add BEM modify '--desktop'
+// eg: $logo_width   -->    $logo_width--desktop

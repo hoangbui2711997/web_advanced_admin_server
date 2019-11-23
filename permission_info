@@ -1,0 +1,13 @@
+
+
+
+UserPage                                admin/users
+EmployeePage                            admin/employees
+ProductPage                             admin/products
+CategoryPage                            admin/categories
+
+AddProductPage                          admin/product/add
+EditProductPage:id                      admin/product/edit
+DetailProductPage:id                    admin/product/detail
+
+ListRoute                               admin/route/list

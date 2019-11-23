@@ -1,0 +1,17 @@
+version: '3'
+services:
+  web:
+    container_name: bitcastle_admin
+    build: ./docker
+    ports:
+    - "8013:80"
+    volumes:
+    - .:/var/www/bitcastle_admin
+  echo-server:
+    image: "lagun4ik/laravel-echo-server"
+    ports:
+      - "6010:6002"
+    volumes:
+      - .:/app
+    links:
+      - web

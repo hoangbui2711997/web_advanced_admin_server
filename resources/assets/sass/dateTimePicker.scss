@@ -1,0 +1,497 @@
+$color_1: #dee2e6;
+$color_2: #007bff;
+$background_color_1: #dee2e6;
+$border_top_color_1: rgba(0, 0, 0, 0.2);
+$border_bottom_color_1: rgba(0, 0, 0, 0.2);
+$border_bottom_color_2: #dee2e6;
+$border_bottom_color_3: #fff;
+
+@media (min-width: 576px) {
+	.bootstrap-datetimepicker-widget.dropdown-menu.timepicker-sbs {
+		width: 38em;
+	}
+}
+@media (min-width: 768px) {
+	.bootstrap-datetimepicker-widget.dropdown-menu.timepicker-sbs {
+		width: 38em;
+	}
+}
+@media (min-width: 992px) {
+	.bootstrap-datetimepicker-widget.dropdown-menu.timepicker-sbs {
+		width: 38em;
+	}
+}
+.bootstrap-datetimepicker-widget.dropdown-menu {
+	&:before {
+		content: '';
+		display: inline-block;
+		position: absolute;
+	}
+	&:after {
+		content: '';
+		display: inline-block;
+		position: absolute;
+	}
+}
+.bootstrap-datetimepicker-widget.dropdown-menu.bottom {
+	&:before {
+		border-left: 7px solid transparent;
+		border-right: 7px solid transparent;
+		border-bottom: 7px solid #ccc;
+		border-bottom-color: $border_bottom_color_1;
+		top: -7px;
+		left: 7px;
+	}
+	&:after {
+		border-left: 6px solid transparent;
+		border-right: 6px solid transparent;
+		border-bottom: 6px solid white;
+		top: -6px;
+		left: 8px;
+	}
+}
+.bootstrap-datetimepicker-widget.dropdown-menu.top {
+	&:before {
+		border-left: 7px solid transparent;
+		border-right: 7px solid transparent;
+		border-top: 7px solid #ccc;
+		border-top-color: $border_top_color_1;
+		bottom: -7px;
+		left: 6px;
+	}
+	&:after {
+		border-left: 6px solid transparent;
+		border-right: 6px solid transparent;
+		border-top: 6px solid white;
+		bottom: -6px;
+		left: 7px;
+	}
+}
+.bootstrap-datetimepicker-widget.dropdown-menu.pull-right {
+	&:before {
+		left: auto;
+		right: 6px;
+	}
+	&:after {
+		left: auto;
+		right: 7px;
+	}
+}
+.bootstrap-datetimepicker-widget {
+	.list-unstyled {
+		margin: 0;
+	}
+	a[data-action] {
+		padding: 6px 0;
+		&:active {
+			box-shadow: none;
+		}
+	}
+	.timepicker-hour {
+		width: 54px;
+		font-weight: bold;
+		font-size: 1.2em;
+		margin: 0;
+	}
+	.timepicker-minute {
+		width: 54px;
+		font-weight: bold;
+		font-size: 1.2em;
+		margin: 0;
+	}
+	.timepicker-second {
+		width: 54px;
+		font-weight: bold;
+		font-size: 1.2em;
+		margin: 0;
+	}
+	button[data-action] {
+		padding: 6px;
+	}
+	.btn[data-action="incrementHours"] {
+		&::after {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			margin: -1px;
+			padding: 0;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			border: 0;
+			content: "Increment Hours";
+		}
+	}
+	.btn[data-action="incrementMinutes"] {
+		&::after {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			margin: -1px;
+			padding: 0;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			border: 0;
+			content: "Increment Minutes";
+		}
+	}
+	.btn[data-action="decrementHours"] {
+		&::after {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			margin: -1px;
+			padding: 0;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			border: 0;
+			content: "Decrement Hours";
+		}
+	}
+	.btn[data-action="decrementMinutes"] {
+		&::after {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			margin: -1px;
+			padding: 0;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			border: 0;
+			content: "Decrement Minutes";
+		}
+	}
+	.btn[data-action="showHours"] {
+		&::after {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			margin: -1px;
+			padding: 0;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			border: 0;
+			content: "Show Hours";
+		}
+	}
+	.btn[data-action="showMinutes"] {
+		&::after {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			margin: -1px;
+			padding: 0;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			border: 0;
+			content: "Show Minutes";
+		}
+	}
+	.btn[data-action="togglePeriod"] {
+		&::after {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			margin: -1px;
+			padding: 0;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			border: 0;
+			content: "Toggle AM/PM";
+		}
+	}
+	.btn[data-action="clear"] {
+		&::after {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			margin: -1px;
+			padding: 0;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			border: 0;
+			content: "Clear the picker";
+		}
+	}
+	.btn[data-action="today"] {
+		&::after {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			margin: -1px;
+			padding: 0;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			border: 0;
+			content: "Set the date to today";
+		}
+	}
+	.picker-switch {
+		text-align: center;
+		&::after {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			margin: -1px;
+			padding: 0;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			border: 0;
+			content: "Toggle Date and Time Screens";
+		}
+		td {
+			padding: 0;
+			margin: 0;
+			height: auto;
+			width: auto;
+			line-height: inherit;
+			span {
+				line-height: 2.5;
+				height: 2.5em;
+				width: 100%;
+			}
+			i {
+				line-height: 2.5;
+				height: 2.5em;
+				width: 100%;
+			}
+		}
+	}
+	table {
+		width: 100%;
+		margin: 0;
+		td {
+			text-align: center;
+			border-radius: 0.25rem;
+			padding: 0.5em;
+			height: 54px;
+			line-height: 54px;
+			width: 54px;
+			span {
+				display: inline-block;
+				width: 54px;
+				height: 54px;
+				line-height: 54px;
+				margin: 2px 1.5px;
+				cursor: pointer;
+				border-radius: 0.25rem;
+				&:hover {
+					background: #f8f9fa;
+				}
+			}
+			i {
+				display: inline-block;
+				width: 54px;
+				height: 54px;
+				line-height: 54px;
+				margin: 2px 1.5px;
+				cursor: pointer;
+				border-radius: 0.25rem;
+				&:hover {
+					background: #f8f9fa;
+				}
+			}
+			span.active {
+				background-color: $background_color_1;
+				color: $color_2;
+				text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+			}
+			i.active {
+				background-color: $background_color_1;
+				color: $color_2;
+				text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+			}
+			span.old {
+				color: $color_1;
+			}
+			i.old {
+				color: $color_1;
+			}
+			span.disabled {
+				background: none;
+				color: $color_1;
+				cursor: not-allowed;
+				&:hover {
+					background: none;
+					color: $color_1;
+					cursor: not-allowed;
+				}
+			}
+			i.disabled {
+				background: none;
+				color: $color_1;
+				cursor: not-allowed;
+				&:hover {
+					background: none;
+					color: $color_1;
+					cursor: not-allowed;
+				}
+			}
+		}
+		th {
+			text-align: center;
+			border-radius: 0.25rem;
+			padding: 0.5em;
+			height: 20px;
+			line-height: 20px;
+			width: 20px;
+		}
+		th.picker-switch {
+			width: 145px;
+		}
+		th.disabled {
+			background: none;
+			color: $color_1;
+			cursor: not-allowed;
+			&:hover {
+				background: none;
+				color: $color_1;
+				cursor: not-allowed;
+			}
+		}
+		th.prev {
+			&::after {
+				position: absolute;
+				width: 1px;
+				height: 1px;
+				margin: -1px;
+				padding: 0;
+				overflow: hidden;
+				clip: rect(0, 0, 0, 0);
+				border: 0;
+				content: "Previous Month";
+			}
+		}
+		th.next {
+			&::after {
+				position: absolute;
+				width: 1px;
+				height: 1px;
+				margin: -1px;
+				padding: 0;
+				overflow: hidden;
+				clip: rect(0, 0, 0, 0);
+				border: 0;
+				content: "Next Month";
+			}
+		}
+		thead {
+			tr {
+				&:first-child {
+					th {
+						cursor: pointer;
+						&:hover {
+							background: #f8f9fa;
+						}
+					}
+				}
+			}
+		}
+		td.cw {
+			font-size: .8em;
+			height: 20px;
+			line-height: 20px;
+			color: $color_1;
+		}
+		td.day {
+			height: 20px;
+			line-height: 20px;
+			width: 20px;
+			&:hover {
+				background: #f8f9fa;
+				cursor: pointer;
+			}
+		}
+		td.hour {
+			&:hover {
+				background: #f8f9fa;
+				cursor: pointer;
+			}
+		}
+		td.minute {
+			&:hover {
+				background: #f8f9fa;
+				cursor: pointer;
+			}
+		}
+		td.second {
+			&:hover {
+				background: #f8f9fa;
+				cursor: pointer;
+			}
+		}
+		td.old {
+			color: $color_1;
+		}
+		td.new {
+			color: $color_1;
+		}
+		td.today {
+			position: relative;
+			&:before {
+				content: '';
+				display: inline-block;
+				border: solid transparent;
+				border-width: 0 0 7px 7px;
+				border-bottom-color: $border_bottom_color_2;
+				border-top-color: $border_top_color_1;
+				position: absolute;
+				bottom: 4px;
+				right: 4px;
+			}
+		}
+		td.active {
+			background-color: $background_color_1;
+			color: $color_2;
+			text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+			&:hover {
+				background-color: $background_color_1;
+				color: $color_2;
+				text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+			}
+		}
+		td.active.today {
+			&:before {
+				border-bottom-color: $border_bottom_color_3;
+			}
+		}
+		td.disabled {
+			background: none;
+			color: $color_1;
+			cursor: not-allowed;
+			&:hover {
+				background: none;
+				color: $color_1;
+				cursor: not-allowed;
+			}
+		}
+	}
+	.datepicker-decades {
+		.decade {
+			line-height: 1.8em !important;
+		}
+	}
+}
+.bootstrap-datetimepicker-widget.usetwentyfour {
+	td.hour {
+		height: 27px;
+		line-height: 27px;
+	}
+}
+.bootstrap-datetimepicker-widget.wider {
+	width: 21em;
+}
+.input-group.date {
+	.input-group-addon {
+		cursor: pointer;
+	}
+}
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}
