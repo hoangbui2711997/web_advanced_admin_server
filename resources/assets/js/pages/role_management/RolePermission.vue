@@ -2,7 +2,6 @@
   <div class="">
     <div class="content-page w-88 m-auto w-max">
       <div class="heading-title">Role Permission</div>
-
       <div class="field is-horizontal">
         <div class="field-label is-normal">
           <label class="label">Role: </label>
@@ -36,13 +35,13 @@
           </div>
         </div>
         <div style="margin-top: 5px;">
-          <div class="button is-primary is-small" @click="controlAddRole()"
+          <div class="button is-info is-small" @click="controlAddRoleHandle()"
                :id="`${$route.name}|control_add_role`">Add
           </div>
-          <div class="button is-warning is-small" @click="controlEditRole()"
+          <div class="button is-warning is-small" @click="controlEditRoleHandle()"
                :id="`${$route.name}|control_edit_role`">Edit
           </div>
-          <div class="button is-danger is-small" @click="controlRemoveModel()"
+          <div class="button is-danger is-small" @click="controlRemoveRoleHandle()"
                :id="`${$route.name}|control_del_role`">Delete
           </div>
         </div>
@@ -62,7 +61,7 @@
             <th>No</th>
             <th>Name Route</th>
             <th>Path</th>
-            <th></th>
+            <th style="width: 180px;"></th>
           </tr>
           </thead>
           <tbody>
@@ -72,8 +71,12 @@
             <td>{{ childPermission.path }}</td>
             <td>
               <input type="checkbox"
+                     style="margin: 7px 15px;"
                      :id="childPermission.name"
                      v-model="params.checkRolePermissions[role.name][_.last(`${permission.name}`.split('::'))][childPermission.name]['checked']">
+              <div class="button is-primary is-small" @click="controlDetailPermissionHandle()"
+                   :id="`${$route.name}|control_add_role`">Detail
+              </div>
             </td>
           </tr>
           </tbody>
@@ -135,7 +138,10 @@
           },
           del: {
             isShow: false,
-          }
+          },
+          detailPermission: {
+            isShow: false,
+          },
         },
         defaultCheckPermissions: {},
       }
@@ -148,6 +154,9 @@
       this.permissions = this.getAllPermission(this.$router.options.routes, []);
     },
     methods: {
+      controlDetailPermissionHandle () {
+
+      },
       async fetchAllRolePermission () {
         let {data} = await this.getAllRolePermissions();
         _.forEach(Object.keys(data), (role) => {
@@ -155,32 +164,32 @@
         });
       },
       async customFetchData () {
-        const { data } = await this.fetchData();
-        if (!!data) {
+        const data = await this.fetchData();
+        if (data) {
           this.params.checkRolePermissions[_.last(this.roles).name] = this.defaultCheckPermissions;
         }
       },
       async fetchData () {
         this.closeAll();
-        this.getRoles();
+        const data = await this.getRoles();
         this.fetchAllRolePermission();
+        return !!data;
       },
       getAllRolePermissions() {
         return this.rf.getRequest('RoleRequest').getRolePermissions();
       },
-      controlAddRole() {
+      controlAddRoleHandle() {
         this.modal.add.isShow = true;
         this.modal.add.model = {};
       },
-      controlEditRole() {
+      controlEditRoleHandle() {
         this.modal.edit.isShow = true;
         this.modal.edit.model = this.role;
       },
       async handleRemoveModel () {
-        const { data } = await this.rf.getRequest('RoleRequest').delRole({ id: this.role.id});
-        this.showSuccess(data);
+        return await this.rf.getRequest('RoleRequest').delRole({ id: this.role.id});
       },
-      async controlRemoveModel() {
+      async controlRemoveRoleHandle() {
         this.modal.del.isShow = true;
       },
       async init() {

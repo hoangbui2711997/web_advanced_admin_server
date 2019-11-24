@@ -30,13 +30,11 @@ class AdminController extends Controller
     {
         $limit = $request->input('limit', 10);
         return response()->json(
-            User::join('user_roles', 'users.id', 'user_roles.user_id')
-                ->join('roles', 'roles.id', 'user_roles.role_id')
-                ->where('role_id', Consts::$ROLE_USER)
-                ->select('users.*')
-                ->distinct('users.id')
-                ->with('roles')
-                ->paginate($limit));
+            User::whereHas('roles', function ($query) {
+                $query->where('roles.name', Consts::$USER);
+            })
+            ->with('roles')
+            ->paginate($limit));
     }
 
     public function signup(Request $request)
@@ -114,19 +112,44 @@ class AdminController extends Controller
     {
         $limit = $request->input('limit', 10);
         return response()->json(
-            User::join('user_roles', 'users.id', 'user_roles.user_id')
-                ->join('roles', 'roles.id', 'user_roles.role_id')
-                ->where('role_id', '<>', Consts::$ROLE_USER)
-                ->where('role_id', '<>', Consts::$ROLE_ADMIN)
-                ->select('users.*')
-                ->distinct('users.id')
-                ->with('roles')
-                ->paginate($limit));
+            User::whereHas('roles', function ($query) {
+                $query->where('roles.name', Consts::$EMPLOYEE);
+            })
+            ->with('roles')
+            ->paginate($limit)
+        );
     }
 
     public function getPermissions(Request $request)
     {
         $limit = $request->input('limit', 10);
         return Permission::paginate($limit);
+    }
+
+    public function updateUserRole(Request $request)
+    {
+        $userId = $request->input('id');
+        $roleIds = $request->input('roleChecks');
+        if(!empty($roleIds) && $userId !== null) {
+            $filteredRoleIds = collect($roleIds)->filter(function ($key, $value) {
+                return $value === true;
+            });
+            $mappedRoleIds = $filteredRoleIds->map(function ($key, $value) use ($userId) {
+                return [
+                    'role_id' => $key,
+                    'user_id' => $userId
+                ];
+            });
+            $keyFilteredRoleIds = $filteredRoleIds->keys()->toArray();
+            try {
+                DB::beginTransaction();
+                UserRole::insert($mappedRoleIds->toArray());
+                UserRole::where('user_id', $userId)->whereNotIn('role_id', $keyFilteredRoleIds)->delete();
+                DB::commit();
+                return 'Update success';
+            } catch (\Exception $exception) {
+                DB::rollBack();
+            }
+        }
     }
 }

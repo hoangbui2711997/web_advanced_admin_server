@@ -4,7 +4,7 @@
       <div class="heading-title">Categories</div>
       <div class="data-table-user-balances-01">
         <div class="is-clearfix">
-          <div class="button is-info is-pulled-right pl-20 mb-20 is-small" @click="controlHandleAdd"
+          <div class="button is-info is-pulled-right pl-20 mb-20 is-small" @click="controlAddCategoryHandle"
                :id="`${$route.name}|control_handle_del`">Add
           </div>
         </div>
@@ -28,10 +28,10 @@
                 <td>{{ props.item.created_at }}</td>
                 <td>{{ props.item.updated_at }}</td>
                 <td>
-                  <div class="button is-warning is-small" @click="controlHandleEdit(props.item)"
+                  <div class="button is-warning is-small" @click="controlEditCategoryHandle(props.item)"
                        :id="`${$route.name}|control_handle_edit`">Edit
                   </div>
-                  <div class="button is-danger is-small" @click="controlHandleDel(props.item.id)"
+                  <div class="button is-danger is-small" @click="controlDeleteCategoryHandle(props.item.id)"
                        :id="`${$route.name}|control_handle_del`">Delete
                   </div>
                 </td>
@@ -108,14 +108,14 @@
         this.closeAllPopup();
         this.$refs.datatable.fetch();
       },
-      controlHandleAdd() {
+      controlAddCategoryHandle() {
         this.modal.add.isShow = true;
       },
-      controlHandleEdit(user) {
+      controlEditCategoryHandle(user) {
         this.modal.edit.model = user;
         this.modal.edit.isShow = true;
       },
-      controlHandleDel(id) {
+      controlDeleteCategoryHandle(id) {
         this.modal.del.isShow = true;
         this.modal.del.id = id;
       },

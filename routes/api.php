@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth:api', 'namespace' => 'API'], function () {
     Route::get('user', 'AdminController@getUser');
     Route::get('users', 'AdminController@getUsers');
+    Route::post('update-user-role', 'AdminController@updateUserRole');
     Route::put('user', 'AdminController@updateUser');
     Route::post('user', 'AdminController@signup');
     Route::delete('user', 'AdminController@delUser');

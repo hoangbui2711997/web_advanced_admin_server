@@ -26,7 +26,9 @@
         try {
           const {data: message } = await promise;
           this.showSuccess(message);
-          this.onSuccess();
+          if (!!message) {
+            this.onSuccess();
+          }
           // this.notification = data.data.message;
         } catch (e) {
           this.warning = [];

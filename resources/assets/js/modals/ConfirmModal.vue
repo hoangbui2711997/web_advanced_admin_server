@@ -42,7 +42,9 @@
         try {
           const { data } = await this.handle();
           this.showSuccess(data);
-          this.onSuccess();
+          if (!!data) {
+            this.onSuccess();
+          }
         } catch (e) {
           console.error(e);
         }

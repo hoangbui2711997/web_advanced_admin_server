@@ -4,7 +4,7 @@
       <div class="heading-title">Products</div>
       <div class="data-table-user-balances-01">
         <div class="is-clearfix">
-          <div class="button is-info is-pulled-right pl-20 mb-20 is-small" @click="controlHandleAdd"
+          <div class="button is-info is-pulled-right pl-20 mb-20 is-small" @click="controlAddProductHandle"
                :id="`${$route.name}|control_handle_del`">Add
           </div>
         </div>
@@ -38,9 +38,9 @@
                 <td>{{ _.get(props.item, 'updated_at') }}</td>
                 <td>{{ _.get(props.item, 'created_at') }}</td>
                 <td>
-                  <div class="button is-primary is-small" @click="controlShowProduct(props.item)" :id="`${$route.name}|control_show_product`">Detail</div>
-                  <div class="button is-warning is-small" @click="controlHandleEdit(props.item)" :id="`${$route.name}|control_handle_edit`">Edit</div>
-                  <div class="button is-danger is-small" @click="controlHandleDel(props.item.id)" :id="`${$route.name}|control_handle_del`">Delete</div>
+                  <div class="button is-primary is-small" @click="controlShowProductHandle(props.item)" :id="`${$route.name}|control_show_product`">Detail</div>
+                  <div class="button is-warning is-small" @click="controlEditProductHandle(props.item)" :id="`${$route.name}|control_handle_edit`">Edit</div>
+                  <div class="button is-danger is-small" @click="controlDeleteProductHandle(props.item.id)" :id="`${$route.name}|control_handle_del`">Delete</div>
                 </td>
               </tr>
             </template>
@@ -78,17 +78,17 @@
       }
     },
     methods: {
-      controlShowProduct (item) {
+      controlShowProductHandle (item) {
         // this.$router.push({name: 'products-slug', params: { slug: item.id }})
         this.$router.push({ name: 'DetailProductPage:id', params: { id: item.id } });
       },
-      controlHandleAdd () {
+      controlAddProductHandle () {
         this.$router.push({ name: 'AddProductPage' });
       },
-      controlHandleEdit (item) {
+      controlEditProductHandle (item) {
         this.$router.push({ name: 'EditProductPage:id', params: { id: item.id } });
       },
-      controlHandleDel (id) {
+      controlDeleteProductHandle (id) {
         this.modal.del.isShow = true;
         this.modal.del.id = id;
       },

@@ -49,5 +49,10 @@ export default class AdminRequest extends BaseRequest {
     const url = 'employees';
     return this.get(url, params)
   }
+
+  updateRoleUser (params) {
+    const url = 'update-user-role';
+    return this.post(url, params);
+  }
 }
 

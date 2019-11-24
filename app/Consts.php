@@ -31,4 +31,10 @@ class Consts
     public static $ROLE_MANAGER = 2;
     public static $ROLE_EMPLOYEE = 3;
     public static $ROLE_USER = 4;
+
+    public static $ADMIN = 'ADMIN';
+    public static $MANAGER = 'MANAGER';
+    public static $EMPLOYEE = 'EMPLOYEE';
+    public static $USER = 'USER';
+
 }
