@@ -72,7 +72,8 @@ class RoleController extends Controller
 
                 $result[$roleCode][$permissionName][$viewName] = [
                     'checked' => $permission->checked,
-                    'url' => $permission->url
+                    'path' => $permission->path,
+                    'controls' => $permission->controls
                 ];
             }
         }
@@ -92,6 +93,7 @@ class RoleController extends Controller
         });
         foreach ($permissions as $menu => $permissionMenus) {
             foreach ($permissionMenus as $permissionMenu => $values) {
+                Log::warning($values);
                 $checked = data_get($values, 'checked', false);
                 $path = data_get($values, 'path', '');
                 RolePermission::updateOrCreate(
@@ -99,7 +101,7 @@ class RoleController extends Controller
                         'role_id' => $roleId,
                         'permission_id' => data_get($idCodePermissions[$menu], 'id', ''),
                         'name' => $permissionMenu,
-                        'url' => $path
+                        'path' => $path
                     ],
                     [
                         'checked' => $checked

@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CheckPermissionRole;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -46,7 +47,8 @@ class Kernel extends HttpKernel
             // \App\Http\Services\SingleSession\Middleware\PreventConcurrentLogin::class,
             \Barryvdh\Cors\HandleCors::class,
             \App\Http\Middleware\BuildApiResponse::class,
-            \App\Http\Middleware\LocaleSetting::class
+            \App\Http\Middleware\LocaleSetting::class,
+            CheckPermissionRole::class
         ],
     ];
 

@@ -43,8 +43,8 @@
 </template>
 
 <script>
-  import Modal from "./Modal";
-  import CommonHandleModal from "../common/CommonHandleModal";
+  import Modal from "../../../modals/Modal";
+  import CommonHandleModal from "../../../common/CommonHandleModal";
 
   export default {
     name: "AddUserModal",
@@ -62,24 +62,24 @@
     },
     watch: {
       show () {
+        if (_.isEmpty(this.roles)) {
+          this.getRoles();
+        }
+        this.innerParams = { roleChecks: {} };
         this.params = { ...this.model };
         _.forEach(this.params.roles, (role) => {
           this.innerParams.roleChecks[role.id] = true;
         });
       }
     },
-    async mounted () {
-      this.getRoles();
-    },
     extends: CommonHandleModal,
     methods: {
       async getRoles () {
-        const {data} = await this.rf.getRequest('RoleRequest').getRoles();
+        const {data} = await this.rf.getRequest('EmployeeRequest').getRoles();
         this.roles = data;
-        console.log(this.roles, "this.roles");
       },
       async promiseRequest() {
-        return await this.rf.getRequest('AdminRequest').updateRoleUser({ ...this.innerParams, id: this.params.id });
+        return await this.rf.getRequest('EmployeeRequest').updateRoleUser({ ...this.innerParams, id: this.params.id });
       }
     }
   }

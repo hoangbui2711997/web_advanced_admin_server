@@ -56,8 +56,8 @@
 </template>
 
 <script>
-  import Modal from "./Modal";
-  import CommonHandleModal from "../common/CommonHandleModal";
+  import Modal from "../../../modals/Modal";
+  import CommonHandleModal from "../../../common/CommonHandleModal";
 
   export default {
     name: "EditUserModal",
@@ -65,7 +65,7 @@
     extends: CommonHandleModal,
     methods: {
       async promiseRequest() {
-        return await this.rf.getRequest('UserRequest').editUser({ ...this.params });
+        return await this.rf.getRequest('EmployeeRequest').editUser({ ...this.params });
       }
     }
   }

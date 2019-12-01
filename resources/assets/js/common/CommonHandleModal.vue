@@ -25,6 +25,7 @@
       async handle(promise) {
         try {
           const {data: message } = await promise;
+          console.log(message, "message");
           this.showSuccess(message);
           if (!!message) {
             this.onSuccess();

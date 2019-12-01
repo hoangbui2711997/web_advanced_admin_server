@@ -11,8 +11,12 @@ class RolePermission extends CustomModel
         'role_id',
         'permission_id',
         'name',
-        'url',
+        'path',
         'checked',
+    ];
+
+    protected $casts = [
+        'checked' => 'boolean'
     ];
 
     public function role(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -23,5 +27,10 @@ class RolePermission extends CustomModel
     public function permission(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Permission::class, 'permission_id');
+    }
+
+    public function controls(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(RolePermissionControl::class);
     }
 }

@@ -210,7 +210,7 @@
   import moment from 'moment';
 
   export default {
-    name: "AddProductPage",
+    name: "DetailProductPage",
     components: { DragDropFile },
     data() {
       return {

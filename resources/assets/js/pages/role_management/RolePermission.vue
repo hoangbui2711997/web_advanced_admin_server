@@ -35,15 +35,18 @@
           </div>
         </div>
         <div style="margin-top: 5px;">
-          <div class="button is-info is-small" @click="controlAddRoleHandle()"
+          <control class="button is-info is-small" @click.native="controlAddRoleHandle()"
+               name="controlAddRoleHandle"
                :id="`${$route.name}|control_add_role`">Add
-          </div>
-          <div class="button is-warning is-small" @click="controlEditRoleHandle()"
+          </control>
+          <control class="button is-warning is-small" @click.native="controlEditRoleHandle()"
+               name="controlEditRoleHandle"
                :id="`${$route.name}|control_edit_role`">Edit
-          </div>
-          <div class="button is-danger is-small" @click="controlRemoveRoleHandle()"
+          </control>
+          <control class="button is-danger is-small" @click.native="controlRemoveRoleHandle()"
+               name="controlRemoveRoleHandle"
                :id="`${$route.name}|control_del_role`">Delete
-          </div>
+          </control>
         </div>
       </div>
 
@@ -73,10 +76,12 @@
               <input type="checkbox"
                      style="margin: 7px 15px;"
                      :id="childPermission.name"
-                     v-model="params.checkRolePermissions[role.name][_.last(`${permission.name}`.split('::'))][childPermission.name]['checked']">
-              <div class="button is-primary is-small" @click="controlDetailPermissionHandle()"
-                   :id="`${$route.name}|control_add_role`">Detail
-              </div>
+                     v-model="params.checkRolePermissions[role.name][_.last(`${permission.name}`.split('::'))][childPermission.name.split(':')[0]]['checked']">
+              <control class="button is-primary is-small"
+                       @click.native="controlDetailPermissionHandle(_.last(`${permission.name}`.split('::')), childPermission.name.split(':')[0])"
+                       name="controlDetailPermissionHandle"
+                       :id="`${$route.name}|control_add_role`">Detail
+              </control>
             </td>
           </tr>
           </tbody>
@@ -107,6 +112,19 @@
       :handle="handleRemoveModel"
       @success="fetchData()"
     ></confirm-modal>
+    <dynamic-import-modal
+      v-if="!!params.checkRolePermissions[role.name] &&
+      !!params.checkRolePermissions[role.name][modal.detailPermission.permissionName] &&
+      !!params.checkRolePermissions[role.name][modal.detailPermission.permissionName][modal.detailPermission.name]"
+      :show="modal.detailPermission.isShow"
+      :name="modal.detailPermission.name"
+      @close="modal.detailPermission.isShow = false"
+      :role-id="role.id"
+      :permission-name="modal.detailPermission.permissionName"
+      :map-controls="params.checkRolePermissions[role.name][modal.detailPermission.permissionName][modal.detailPermission.name].controls"
+      @success="handleSubmitControl()"
+    >
+    </dynamic-import-modal>
   </div>
 </template>
 
@@ -114,10 +132,12 @@
   import EditRoleModal from "../single_table_management/role_management/EditRoleModal";
   import AddRoleModal from "../single_table_management/role_management/AddRoleModal";
   import ConfirmModal from "../../modals/ConfirmModal";
+  import DynamicImportModal from "../../modals/DynamicImportModal";
 
   export default {
     name: "RolePermission",
     components: {
+      DynamicImportModal,
       EditRoleModal,
       AddRoleModal,
       ConfirmModal,
@@ -141,6 +161,8 @@
           },
           detailPermission: {
             isShow: false,
+            name: '',
+            permissionName: '',
           },
         },
         defaultCheckPermissions: {},
@@ -154,12 +176,22 @@
       this.permissions = this.getAllPermission(this.$router.options.routes, []);
     },
     methods: {
-      controlDetailPermissionHandle () {
-
+      async handleSubmitControl() {
+        const data = await this.fetchData();
+        if (!!data) {
+          return await this.$store.dispatch('getCurrentUserInfo');
+        }
+      },
+      controlDetailPermissionHandle (permissionName, name) {
+        this.modal.detailPermission.isShow = true;
+        this.modal.detailPermission.name = name;
+        this.modal.detailPermission.permissionName = permissionName;
       },
       async fetchAllRolePermission () {
-        let {data} = await this.getAllRolePermissions();
+        let { data } = await this.getAllRolePermissions();
+        console.log(data, "data");
         _.forEach(Object.keys(data), (role) => {
+          console.log(role, "role");
           this.params.checkRolePermissions[role] = data[role];
         });
       },
@@ -193,15 +225,19 @@
         this.modal.del.isShow = true;
       },
       async init() {
-        let allPermission = this.getAllPermission(this.$router.options.routes, []);
+        let menus = this.getAllPermission(this.$router.options.routes, []);
         let checkPermissions = {};
-        allPermission.forEach((permission) => {
-          _.set(checkPermissions, _.last(`${permission.name}`.split('::')), {});
-          let childPermissions = this.getChildPermission(permission);
-          childPermissions.forEach((item) => {
-            _.set(checkPermissions[_.last(`${permission.name}`.split('::'))], item.name, {});
-            _.set(checkPermissions[_.last(`${permission.name}`.split('::'))][item.name], 'checked', false);
-            _.set(checkPermissions[_.last(`${permission.name}`.split('::'))][item.name], 'path', item.path);
+        menus.forEach((menu) => {
+          const menuName = _.last(`${menu.name}`.split('::'));
+          _.set(checkPermissions, menuName, {});
+          let childMenus = this.getChildPermission(menu);
+          childMenus.forEach((item) => {
+            const pageName = item.name.split(':')[0];
+            console.log(item, "item");
+            _.set(checkPermissions[menuName], pageName, {});
+            _.set(checkPermissions[menuName][pageName], 'checked', false);
+            _.set(checkPermissions[menuName][pageName], 'path', item.path);
+            _.set(checkPermissions[menuName][pageName], 'controls', []);
           });
         });
 
@@ -222,6 +258,9 @@
 
         const { data } = await this.rf.getRequest('RoleRequest').updateRolePermissions(params);
         this.showSuccess(data);
+        if (!!data) {
+          this.$broadcast('updateSideBar');
+        }
       },
       setRole(role) {
         this.role = role;
@@ -260,6 +299,7 @@
         this.modal.edit.isShow = false;
         this.modal.add.isShow = false;
         this.modal.del.isShow = false;
+        this.modal.detailPermission.isShow = false;
       }
     }
   }

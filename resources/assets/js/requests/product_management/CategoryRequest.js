@@ -1,8 +1,8 @@
-import BaseRequest from './BaseRequest'
+import BaseRequest from '../BaseRequest'
 
 export default class CategoryRequest extends BaseRequest {
   prefix() {
-    return 'category/'
+    return 'product-management/category/'
   }
 
   addCategory (params) {

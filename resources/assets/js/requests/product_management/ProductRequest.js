@@ -1,8 +1,8 @@
-import BaseRequest from './BaseRequest'
+import BaseRequest from '../BaseRequest'
 
 export default class ProductRequest extends BaseRequest {
   prefix() {
-    return 'product/'
+    return 'product-management/product/'
   }
 
   getProducts (params) {

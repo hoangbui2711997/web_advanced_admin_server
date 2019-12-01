@@ -13,6 +13,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -27,6 +28,8 @@
     },
     mounted() {
       this.items = this.getAllRoutes(this.$router.options.routes, [], 'http://localhost:8013/admin');
+      let abc = {};
+      this.mapControls = this.getAllControl(this.$root, abc);
     },
     methods: {
       getAllRoutes (routes, result, prefix = '') {
@@ -41,6 +44,16 @@
             this.getAllRoutes(route.children, result, `${prefix}${route.path}`);
           }
         });
+        return result;
+      },
+      getAllControl (app, result = {}) {
+        result[app.$options.name] = _.filter(Object.keys(app.$options.methods), (functionName) => {
+          return _.startsWith(functionName, 'control') && _.endsWith(functionName, 'Handle');
+        });
+        _.forEach(app.$children, component => {
+          this.getAllControl(component, result);
+        });
+
         return result;
       },
     }

@@ -49,6 +49,7 @@ export default class BaseRequest {
   }
 
   _errorHandler(err) {
+    window.app.showError(err.response.data.error);
     if (err.response && err.response.status === 401) { // Unauthorized (session timeout)
       window.location.href = '/admin/login';
     }

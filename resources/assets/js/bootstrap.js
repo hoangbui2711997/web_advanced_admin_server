@@ -39,6 +39,8 @@ window.axios.interceptors.response.use(response => {
  */
 
 let token = document.head.querySelector('meta[name="csrf-token"]');
+window.isAuthenticated = !!document.head.querySelector('meta[name="authenticated"]');
+
 
 if (token) {
   window.csrf_token = token.content;

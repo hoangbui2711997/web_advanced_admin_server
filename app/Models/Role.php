@@ -16,4 +16,9 @@ class Role extends CustomModel
     {
         return $this->belongsToMany(Permission::class, 'role_permissions');
     }
+
+    public function rolePermissions()
+    {
+        return $this->hasMany(RolePermission::class)->with('controls');
+    }
 }

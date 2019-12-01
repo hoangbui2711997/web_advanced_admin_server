@@ -37,6 +37,7 @@ import Modal from "./modals/Modal";
 import CommonHandleModal from "./common/CommonHandleModal";
 import InputOnlyNumber from "./common/InputOnlyNumber";
 import InfiniteLoading from 'vue-infinite-loading';
+import Control from "./common/Control";
 
 Vue.use(VeeValidate);
 Vue.use(Toasted);
@@ -57,6 +58,7 @@ Vue.component('currency-input', CurrencyInput);
 Vue.component('negative-currency-input', NegativeCurrencyInput);
 Vue.component('percent-input', PercentInput);
 Vue.component('input-only-number', InputOnlyNumber);
+Vue.component('control', Control);
 Vue.use(InfiniteLoading, {
   props: {
     spinner: 'default',
@@ -90,13 +92,17 @@ window.store = store;
 // })
 
 window.app = new Vue({
+  name: 'ROOT',
   i18n,
   store,
   router,
   created () {
-    this.$store.dispatch('init');
+    // this.$store.dispatch('init');
   },
   render (createElement) {
     return createElement(App);
   },
 }).$mount('#admin-app');
+if (window.isAuthenticated) {
+  window.app.$store.dispatch('init');
+}

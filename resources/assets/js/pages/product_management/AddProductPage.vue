@@ -232,7 +232,7 @@
         </div>
       </div>
       <div class="field is-clearfix" style="margin: auto;">
-        <input v-reset-error type="button" class="button is-link is-pulled-right is-normal" value="Register" @click="controlAddProduct">
+        <input v-reset-error type="button" class="button is-link is-pulled-right is-normal" value="Register" @click="controlAddProductHandle">
       </div>
     </div>
   </div>
@@ -266,7 +266,7 @@
       },
     },
     methods: {
-      async controlAddProduct () {
+      async controlAddProductHandle () {
         try {
           const formData = new FormData();
 

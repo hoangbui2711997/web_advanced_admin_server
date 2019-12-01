@@ -4,9 +4,10 @@
       <div class="heading-title">Categories</div>
       <div class="data-table-user-balances-01">
         <div class="is-clearfix">
-          <div class="button is-info is-pulled-right pl-20 mb-20 is-small" @click="controlAddCategoryHandle"
+          <control class="button is-info is-pulled-right pl-20 mb-20 is-small" @click.native="controlAddCategoryHandle"
+               name="controlAddCategoryHandle"
                :id="`${$route.name}|control_handle_del`">Add
-          </div>
+          </control>
         </div>
         <div class="table__main-table table-01">
           <data-table
@@ -28,12 +29,14 @@
                 <td>{{ props.item.created_at }}</td>
                 <td>{{ props.item.updated_at }}</td>
                 <td>
-                  <div class="button is-warning is-small" @click="controlEditCategoryHandle(props.item)"
+                  <control class="button is-warning is-small" @click.native="controlEditCategoryHandle(props.item)"
+                       name="controlEditCategoryHandle"
                        :id="`${$route.name}|control_handle_edit`">Edit
-                  </div>
-                  <div class="button is-danger is-small" @click="controlDeleteCategoryHandle(props.item.id)"
+                  </control>
+                  <control class="button is-danger is-small" @click.native="controlDeleteCategoryHandle(props.item.id)"
+                       name="controlDeleteCategoryHandle"
                        :id="`${$route.name}|control_handle_del`">Delete
-                  </div>
+                  </control>
                 </td>
               </tr>
             </template>

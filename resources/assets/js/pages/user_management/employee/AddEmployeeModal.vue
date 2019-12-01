@@ -63,8 +63,8 @@
 </template>
 
 <script>
-  import Modal from "./Modal";
-  import CommonHandleModal from "../common/CommonHandleModal";
+  import Modal from "../../../modals/Modal";
+  import CommonHandleModal from "../../../common/CommonHandleModal";
 
   export default {
     name: "AddUserModal",
@@ -77,8 +77,7 @@
     extends: CommonHandleModal,
     methods: {
       async promiseRequest() {
-        console.log( ...this.params, ...{ is_user: this.isUser }, " ...this.params, ...{ is_user: this.isUser }");
-        return await this.rf.getRequest('UserRequest').addUser({ ...this.params, ...{ is_user: this.isUser }});
+        return await this.rf.getRequest('EmployeeRequest').addUser({ ...this.params, ...{ is_user: this.isUser }});
       }
     }
   }

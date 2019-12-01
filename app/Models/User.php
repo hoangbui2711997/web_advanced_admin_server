@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use App\Consts;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Log;
 use Laravel\Passport\HasApiTokens;
 use Storage;
 
@@ -38,7 +38,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $dateFormat = 'Y-m-d H:i:s';
+    protected $dateFormat = 'Y-m-d H:i:s.u';
 
 //    protected $appends = ['avatar_url'];
 //
@@ -56,5 +56,20 @@ class User extends Authenticatable
     {
         //        return $this->roles->where('role_id', Consts::$ROLE_USER)->count() > 0;
         return $this->roles()->where('role_id', Consts::$ROLE_USER)->count() > 0;
+    }
+
+    public function fromDateTime($value)
+    {
+        Log::warning('$value');
+        Log::warning($value);
+        return empty($value) ? $value :
+            substr(
+                $this->asDateTime($value)->format(
+                    $this->getDateFormat()
+                ),
+                0,
+                (strlen($this->asDateTime($value)->format(
+                        $this->getDateFormat()
+                    )) - 3));
     }
 }

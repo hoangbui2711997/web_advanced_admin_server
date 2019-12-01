@@ -30,7 +30,7 @@
   import CommonHandleModal from "../../common/CommonHandleModal";
 
   export default {
-    name: "AddRole",
+    name: "PermissionDetail",
     extends: CommonHandleModal,
     methods: {
       async promiseRequest() {

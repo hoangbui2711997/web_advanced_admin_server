@@ -37,4 +37,48 @@ class Consts
     public static $EMPLOYEE = 'EMPLOYEE';
     public static $USER = 'USER';
 
+    public static $API_COMMON = [
+        'api/common/get-current-user',
+        'api/common/user',
+        'api/common/list'
+    ];
+
+    public static $UPLOAD_PATH = '/public/';
+    public static $VERBS = ['POST', 'PUT', 'DELETE', 'GET'];
+    public static $POST = 'POST';
+    public static $PUT = 'PUT';
+    public static $DELETE = 'DELETE';
+    public static $GET = 'GET|HEAD';
+
+    public static $VARIATION_TYPE_SMALL = 'small';
+    public static $VARIATION_TYPE_DELUXE = 'medium';
+    public static $VARIATION_TYPE_PREMIUM = 'premium';
+
+    public static $COLLECTION_SIZES = ['standard', 'deluxe', 'premium'];
+    public static $COLLECTION_VASE_SIZES = ['small', 'medium', 'large'];
+    public static $COLLECTION_QUANTITY = [1, 2, 3];
+
+    public static $COLLECTION_EXTRAS = ['mylar balloons', 'stuffed animal', 'chocolates'];
+
+    public static $DECORATIONS = [
+        'products' => 'name',
+        'product_variations' => 'color',
+        'product_extra_variations' => 'amount',
+        'vases' => 'name',
+        'vase_variations' => 'size',
+    ];
+
+    public static $INVOICE_STATUS_CREATED = 'created';
+    public static $INVOICE_STATUS_ORDERING = 'ordering';
+    public static $INVOICE_STATUS_NEED_PAY = 'need_pay';
+    public static $INVOICE_STATUS_CANCELED = 'canceled';
+    public static $INVOICE_STATUS_SUCCESS = 'success';
+
+    public static $INVOICE_STATUSES = [
+        'created',
+        'ordering',
+        'need_pay',
+        'canceled',
+        'success',
+    ];
 }

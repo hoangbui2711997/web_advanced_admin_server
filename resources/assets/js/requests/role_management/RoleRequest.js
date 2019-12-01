@@ -1,8 +1,8 @@
-import BaseRequest from './BaseRequest'
+import BaseRequest from '../BaseRequest'
 
 export default class RoleRequest extends BaseRequest {
   prefix() {
-    return 'role/'
+    return 'role-management/role/'
   }
 
   addRole (params) {

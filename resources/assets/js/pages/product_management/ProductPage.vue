@@ -4,9 +4,12 @@
       <div class="heading-title">Products</div>
       <div class="data-table-user-balances-01">
         <div class="is-clearfix">
-          <div class="button is-info is-pulled-right pl-20 mb-20 is-small" @click="controlAddProductHandle"
-               :id="`${$route.name}|control_handle_del`">Add
-          </div>
+          <control
+            class="button is-info is-pulled-right pl-20 mb-20 is-small"
+            name="controlAddProductHandle"
+            @click.native="controlAddProductHandle">
+            Add
+          </control>
         </div>
         <div class="table__main-table table-01">
           <data-table
@@ -38,9 +41,24 @@
                 <td>{{ _.get(props.item, 'updated_at') }}</td>
                 <td>{{ _.get(props.item, 'created_at') }}</td>
                 <td>
-                  <div class="button is-primary is-small" @click="controlShowProductHandle(props.item)" :id="`${$route.name}|control_show_product`">Detail</div>
-                  <div class="button is-warning is-small" @click="controlEditProductHandle(props.item)" :id="`${$route.name}|control_handle_edit`">Edit</div>
-                  <div class="button is-danger is-small" @click="controlDeleteProductHandle(props.item.id)" :id="`${$route.name}|control_handle_del`">Delete</div>
+                  <control
+                    class="button is-primary is-small"
+                    name="controlShowProductHandle"
+                    @click.native="controlShowProductHandle(props.item)">
+                    Detail
+                  </control>
+                  <control
+                    class="button is-warning is-small"
+                    name="controlEditProductHandle"
+                    @click.native="controlEditProductHandle(props.item)">
+                    Edit
+                  </control>
+                  <control
+                    class="button is-danger is-small"
+                    name="controlDeleteProductHandle"
+                    @click.native="controlDeleteProductHandle(props.item.id)">
+                    Delete
+                  </control>
                 </td>
               </tr>
             </template>
@@ -76,6 +94,9 @@
           },
         },
       }
+    },
+    mounted () {
+      this.rf.getRequest('EmployeeRequest').getEmployees({ limit: 10, page: 1 });
     },
     methods: {
       controlShowProductHandle (item) {

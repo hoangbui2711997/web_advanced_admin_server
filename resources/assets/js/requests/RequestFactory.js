@@ -1,8 +1,10 @@
 import AdminRequest from './AdminRequest';
-import CategoryRequest from './CategoryRequest';
-import ProductRequest from './ProductRequest';
-import RoleRequest from "./RoleRequest";
-import PermissionRequest from "./PermissionRequest";
+import CategoryRequest from './product_management/CategoryRequest';
+import ProductRequest from './product_management/ProductRequest';
+import RoleRequest from "./role_management/RoleRequest";
+import PermissionRequest from "./role_management/PermissionRequest";
+import EmployeeRequest from "./user_management/EmployeeRequest";
+import UserRequest from "./user_management/UserRequest";
 
 
 const requestMap = {
@@ -11,6 +13,8 @@ const requestMap = {
   ProductRequest,
   RoleRequest,
   PermissionRequest,
+  EmployeeRequest,
+  UserRequest,
 };
 
 const instances = {};

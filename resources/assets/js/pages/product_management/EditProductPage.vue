@@ -232,7 +232,7 @@
         </div>
       </div>
       <div class="field is-clearfix" style="margin: auto;">
-        <input v-reset-error type="button" class="button is-link is-pulled-right is-normal" value="Update" @click="controlEditProduct">
+        <input v-reset-error type="button" class="button is-link is-pulled-right is-normal" value="Update" @click="controlEditProductHandle">
       </div>
     </div>
   </div>
@@ -243,7 +243,7 @@
   import moment from 'moment';
 
   export default {
-    name: "AddProductPage",
+    name: "EditProductPage",
     components: { DragDropFile },
     data() {
       return {
@@ -281,7 +281,7 @@
       this.urlImage = this.params.image_url;
     },
     methods: {
-      async controlEditProduct () {
+      async controlEditProductHandle () {
         try {
           const formData = new FormData();
 

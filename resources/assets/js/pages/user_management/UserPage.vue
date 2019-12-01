@@ -4,9 +4,9 @@
       <div class="heading-title">Users</div>
       <div class="data-table-user-balances-01">
         <div class="is-clearfix">
-          <div class="button is-info is-pulled-right pl-20 mb-20 is-small" @click="controlAddUserHandle"
+          <control class="button is-info is-pulled-right pl-20 mb-20 is-small" name="controlAddUserHandle" @click.native="controlAddUserHandle"
                :id="`${$route.name}|control_handle_del`">Add
-          </div>
+          </control>
         </div>
         <div class="table__main-table table-01">
           <data-table
@@ -32,12 +32,12 @@
                 <td>{{ props.item.created_at }}</td>
                 <td>{{ props.item.updated_at }}</td>
                 <td>
-                  <div class="button is-warning is-small" @click="controlEditUserHandle(props.item)"
+                  <control class="button is-warning is-small" name="controlEditUserHandle" @click.native="controlEditUserHandle(props.item)"
                        :id="`${$route.name}|control_handle_edit`">Edit
-                  </div>
-                  <div class="button is-danger is-small" @click="controlDeleteProductHandle(props.item.id)"
+                  </control>
+                  <control class="button is-danger is-small" name="controlDeleteUserHandle" @click.native="controlDeleteUserHandle(props.item.id)"
                        :id="`${$route.name}|control_handle_del`">Delete
-                  </div>
+                  </control>
                 </td>
               </tr>
             </template>
@@ -113,12 +113,12 @@
         this.modal.edit.model = user;
         this.modal.edit.isShow = true;
       },
-      controlDeleteProductHandle(id) {
+      controlDeleteUserHandle(id) {
         this.modal.del.isShow = true;
         this.modal.del.id = id;
       },
       getData(params) {
-        return this.rf.getRequest('AdminRequest').getUsers(params);
+        return this.rf.getRequest('UserRequest').getUsers(params);
       },
       controlRemoveModel() {
         const id = this.modal.del.id;

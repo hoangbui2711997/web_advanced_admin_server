@@ -1,8 +1,8 @@
-import BaseRequest from './BaseRequest'
+import BaseRequest from '../BaseRequest'
 
 export default class PermissionRequest extends BaseRequest {
   prefix() {
-    return 'permission/'
+    return 'role-management/permission/'
   }
 
   addPermission (params) {
@@ -28,6 +28,11 @@ export default class PermissionRequest extends BaseRequest {
   getPermission (params) {
     const url = 'detail';
     return this.get(url, params);
+  }
+
+  updatePermissionControl (params) {
+    const url = 'update-permission-control';
+    return this.post(url, params);
   }
 }
 

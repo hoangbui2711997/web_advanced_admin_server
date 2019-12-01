@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul class="list-menu">
-      <li v-for="(item, index) in listMenu" :key="index"
+      <li v-for="(item, index) in listMenuClone" :key="index"
           :class="{'active': (item.activeMenu || item.openLink) }"
           class="menu-item">
         <!-- <div class="inline-link"> -->
@@ -34,6 +34,7 @@
 
 <script>
   import _ from 'lodash';
+  import { mapGetters } from 'vuex';
 
   export default {
     name: 'SideBar',
@@ -44,58 +45,72 @@
         listMenu: [
           {
             text: 'side_bar.user_management',
+            route_name: 'UserManagement',
             openLink: false,
             activeMenu: false,
             sub_list: [
               {
                 text: 'side_bar.user',
-                link: '/user-management/users'
+                link: '/user-management/users',
+                name: 'UserPage'
               },
               {
                 text: 'side_bar.employees',
-                link: '/user-management/employees'
+                link: '/user-management/employees',
+                name: 'EmployeePage'
               },
             ]
           },
           {
             text: 'side_bar.product_management',
+            route_name: 'ProductManagement',
             openLink: false,
             activeMenu: false,
             sub_list: [
               {
                 text: 'side_bar.product',
-                link: '/product-management/products'
+                link: '/product-management/products',
+                name: 'ProductPage'
               },
               {
                 text: 'side_bar.categories',
-                link: '/product-management/categories'
+                link: '/product-management/categories',
+                name: 'CategoryPage'
               },
             ],
           },
           {
             text: 'side_bar.role_management',
+            route_name: 'RoleManagement',
             openLink: false,
             activeMenu: false,
             sub_list: [
               {
                 text: 'Role Permissions',
-                link: '/role-management/list'
+                link: '/role-management/list',
+                name: 'RolePermission'
               },
             ],
           },
           {
             text: 'side_bar.route_management',
+            route_name: 'RouteManagement',
             openLink: false,
             activeMenu: false,
             sub_list: [
               {
                 text: 'Routes',
-                link: '/route-management/list'
+                link: '/route-management/list',
+                name: 'ListRoute'
               },
             ],
           },
         ],
+        listMenuClone: [],
       }
+    },
+    computed: {
+      ...mapGetters(['getPermissionMenu', 'getPermissionPage', 'getPermissionPageAction'])
     },
     created() {
       this.initMenu(this.$route.path);
@@ -104,8 +119,33 @@
       '$route'(to) {
         this.initMenu(to.path);
       },
+      getPermissionMenu () {
+        this.updateSideBar();
+      },
+    },
+    mounted() {
+      this.$on('updateSideBar', async () => {
+        const data = await this.$store.dispatch('getCurrentUserInfo');
+        if (!!data) {
+          this.initMenu(this.$route.path);
+          this.updateSideBar();
+        }
+      });
     },
     methods: {
+      updateSideBar () {
+        this.$nextTick(() => {
+          this.listMenuClone = _.filter(JSON.parse(JSON.stringify(this.listMenu)), (menu) => {
+            if(_.some(this.getPermissionMenu, (permissionMenu) => permissionMenu === menu.route_name)) {
+              menu.sub_list = _.filter(menu.sub_list, ({ name }) => {
+                return _.some(this.getPermissionPage, (e) => e === name)
+              });
+              return true;
+            }
+            return false;
+          });
+        });
+      },
       initMenu (link) {
         _.forEach(this.listMenu, (menu, key) => {
           this.$set(this.listMenu[key], 'activeMenu', false);

@@ -2,62 +2,13 @@
 
 namespace App;
 
-use Illuminate\Support\Str;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use App\Http\Services\UserService;
-use Carbon\Carbon;
-use App\Consts;
 use App\Utils\BigNumber;
-use Auth;
-use DB;
-use App;
-use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
-use Mail;
-use App\Mail\DividendNotification;
+use Illuminate\Support\Str;
 
 class Utils
 {
-    public static function makeQrCode($text)
-    {
-        // check if the qr code already exist then return it
-        // otherwise, generate new one and return
-        $path = storage_path() . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR
-            . "qr_codes" . DIRECTORY_SEPARATOR;
-
-        $filename = $path . $text . ".png";
-        if (!file_exists($filename)) {
-            QrCode::format('png')->size(220)->generate($text, $filename);
-        }
-
-        return "/storage/qr_codes/". $text .".png";
-    }
-    public static function makeQrCodeRefferal($text)
-    {
-        // check if the qr code already exist then return it
-        // otherwise, generate new one and return
-        $path = storage_path() . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR
-            . "qr_codes" . DIRECTORY_SEPARATOR;
-        $name='user_ref_code_'.substr($text, strpos($text, '=')+1) ;
-        $filename = $path . $name . ".png";
-        if (!file_exists($filename)) {
-            QrCode::format('png')->size(500)->generate($text, $filename);
-        }
-
-        return "/storage/qr_codes/". $name .".png";
-    }
-
-    public static function isEqual($a, $b)
-    {
-        return abs($a - $b) < 1e-10;
-    }
-
-    public static function todaySeoul() {
-        return Carbon::today('Asia/Seoul');
-    }
-
     public static function previous24hInMillis() {
         return Carbon::now()->subDay()->timestamp * 1000;
     }
@@ -95,13 +46,6 @@ class Utils
     public static function mulBigNumber($number1, $number2) {
         if (!$number1 || !$number2) return "0";
         return (new BigNumber($number1))->mul($number2)->toString();
-    }
-
-
-    public static function getTriggerConditionStatus($condition) {
-        if ($condition == 'le') return '<=';
-        if ($condition == 'ge') return '>=';
-        return '';
     }
 
     public static function trimFloatNumber($val) {
@@ -153,9 +97,41 @@ class Utils
             $x1 = $values[0];
             $x2 = rtrim($values[1], '0');
             $x2 = $x2 == '' ? '' : ".$x2";
-            return $x1.$x2;
-        } else {
-            return $value;
+            return $x1 . $x2;
+        }
+
+        return $value;
+    }
+
+    public static $image = [];
+
+    public static function getVerb($url)
+    {
+        $verbs = [];
+        if (!Str::contains($url, Consts::$VERBS)) {
+            return '';
+        }
+
+        if (Str::contains($url, Consts::$POST)) {
+            $verbs[] = Consts::$POST;
+        }
+        if (Str::contains($url, Consts::$GET)) {
+            $verbs[] = Consts::$GET;
+        }
+        if (Str::contains($url, Consts::$PUT)) {
+            $verbs[] = Consts::$PUT;
+        }
+        if (Str::contains($url, Consts::$DELETE)) {
+            $verbs[] = Consts::$DELETE;
+        }
+
+        return $verbs;
+    }
+
+    public static function loadImageFromStore()
+    {
+        if (empty(self::$image)) {
+            self::$image = explode("\n", file_get_contents(storage_path('/file_name')));
         }
     }
 }

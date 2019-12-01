@@ -41,8 +41,8 @@
 <script>
   import SideBar from '../components/SideBar';
   import rf from '../requests/RequestFactory';
-  import Utils from "../common/Utils";
   import ConfirmDialog from '../modals/ConfirmDialog.vue';
+  import { mapGetters } from 'vuex';
 
   export default {
     name: 'BasePage',
@@ -55,7 +55,24 @@
         maintenanceModeSetting: 0,
       }
     },
-    created () {
+    computed: {
+      ...mapGetters(['getPermissionPage']),
+    },
+    beforeCreate () {
+      window.setTimeout(() => {
+        if (!_.some(this.getPermissionPage, (page) => `${this.$route.name}`.includes(page))) {
+          this.$router.push({ name: 'ListRoute' })
+        }
+
+        this.$router.beforeEach((to, from, next) => {
+          if (_.some(this.getPermissionPage, (page) => page === _.first(`${to.name}`.split(':')))) {
+            next();
+          } else {
+            this.showError("Unauthorized page");
+            next({ name: 'ListRoute' });
+          }
+        })
+      }, 1000);
     },
     mounted () {
      this.getDataUser();

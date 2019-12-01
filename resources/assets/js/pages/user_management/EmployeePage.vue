@@ -4,9 +4,10 @@
       <div class="heading-title">Employees</div>
       <div class="data-table-user-balances-01">
         <div class="is-clearfix">
-          <div class="button is-info is-pulled-right pl-20 mb-20 is-small" @click="controlAddEmployeeHandle"
+          <control class="button is-info is-pulled-right pl-20 mb-20 is-small" @click.native="controlAddEmployeeHandle"
+                   name="controlAddEmployeeHandle"
                :id="`${$route.name}|control_handle_del`">Add
-          </div>
+          </control>
         </div>
         <div class="table__main-table table-01">
           <data-table
@@ -32,23 +33,26 @@
                 <td>{{ props.item.created_at }}</td>
                 <td>{{ props.item.updated_at }}</td>
                 <td>
-                  <div class="button is-warning is-small" @click="controlEditEmployeeHandle(props.item)"
+                  <control class="button is-warning is-small" @click.native="controlEditEmployeeHandle(props.item)"
+                       name="controlEditEmployeeHandle"
                        :id="`${$route.name}|control_handle_edit`">Edit
-                  </div>
-                  <div class="button is-link is-small" @click="controlEditRoleHandle(props.item)"
+                  </control>
+                  <control class="button is-warning is-small" @click.native="controlEditRoleHandle(props.item)"
+                       name="controlEditRoleHandle"
                        :id="`${$route.name}|control_handle_del`">Edit Role
-                  </div>
-                  <div class="button is-danger is-small" @click="controlDeleteEmployeeHandle(props.item.id)"
+                  </control>
+                  <control class="button is-danger is-small" @click.native="controlDeleteEmployeeHandle(props.item.id)"
+                       name="controlDeleteEmployeeHandle"
                        :id="`${$route.name}|control_handle_del`">Delete
-                  </div>
+                  </control>
                 </td>
               </tr>
             </template>
           </data-table>
         </div>
-        <edit-user-modal :show="modal.edit.isShow" @close="modal.edit.isShow = false" :model="modal.edit.model"
-                         @success="fetchData"></edit-user-modal>
-        <add-user-modal :show="modal.add.isShow" :is-user="0" @close="modal.add.isShow = false" :model="{}" @success="fetchData"></add-user-modal>
+        <edit-employee-modal :show="modal.edit.isShow" @close="modal.edit.isShow = false" :model="modal.edit.model"
+                         @success="fetchData"></edit-employee-modal>
+        <add-employee-modal :show="modal.add.isShow" :is-user="0" @close="modal.add.isShow = false" :model="{}" @success="fetchData"></add-employee-modal>
         <edit-role-modal :show="modal.edit_role.isShow" :is-user="0" @close="modal.edit_role.isShow = false" :model="modal.edit_role.model" @success="fetchData"></edit-role-modal>
         <confirm-modal
           :show="modal.del.isShow"
@@ -65,14 +69,14 @@
 </template>
 
 <script>
-  import EditUserModal from "../../modals/EditUserModal";
-  import AddUserModal from "../../modals/AddUserModal";
+  import EditEmployeeModal from "./employee/EditEmployeeModal";
+  import AddEmployeeModal from "./employee/AddEmployeeModal";
   import ConfirmModal from "../../modals/ConfirmModal";
-  import EditRoleModal from "../../modals/EditRoleModal";
+  import EditRoleModal from "./employee/EditRoleModal";
 
   export default {
     name: "EmployeePage",
-    components: { EditRoleModal, ConfirmModal, AddUserModal, EditUserModal },
+    components: { EditRoleModal, ConfirmModal, AddEmployeeModal, EditEmployeeModal },
     data() {
       return {
         modal: {
@@ -134,7 +138,7 @@
         this.modal.del.id = id;
       },
       getData(params) {
-        return this.rf.getRequest('AdminRequest').getEmployees(params);
+        return this.rf.getRequest('EmployeeRequest').getEmployees(params);
       },
       controlRemoveModel() {
         const id = this.modal.del.id;
