@@ -78,4 +78,21 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'API'], function () {
             Route::post('update-permission-control', 'PermissionController@updatePermissionControl');
         });
     });
+
+    Route::group(['prefix' => 'chat-management'], function () {
+        Route::group(['prefix' => 'waiting'], function () {
+            Route::get('users', 'ChatController@getAllUserActive');
+//            Route::get('messages', 'ChatController@getPreviewMessages');
+            Route::get('preview-message', 'ChatController@getPreviewMessages');
+            Route::post('pair', 'ChatController@pairWithUser');
+        });
+        Route::group(['prefix' => 'chat-room'], function () {
+            Route::post('send-message', 'ChatController@sendMessage');
+            Route::get('all-user-pairing', 'ChatController@getAllUserPairing');
+            Route::get('messages', 'ChatController@getMessages');
+            Route::post('un-pair', 'ChatController@unPairWithUser');
+        });
+    });
+
+
 });

@@ -40,4 +40,7 @@
     justify-content: normal;
     padding-top: 40px;
   }
+  .modal-card {
+    margin-top: 2rem;
+  }
 </style>

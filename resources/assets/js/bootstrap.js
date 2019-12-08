@@ -55,11 +55,12 @@ if (token) {
  * allows your team to easily build robust real-time web applications.
  */
 Vue.use(VueI18n);
+window.io = require('socket.io-client');
 
-// window.Echo = new Echo({
-//   broadcaster: 'socket.io',
-//   host: SOCKET_URL
-// });
+window.Echo = new Echo({
+  broadcaster: 'socket.io',
+  host: SOCKET_URL
+});
 
 const locale = document.documentElement.lang;
 const i18n = new VueI18n({

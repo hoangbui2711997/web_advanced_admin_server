@@ -40,6 +40,7 @@
     methods: {
       async handleMethod () {
         try {
+          console.log("@handleMethod");
           const { data } = await this.handle();
           this.showSuccess(data);
           if (!!data) {

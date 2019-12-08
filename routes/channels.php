@@ -11,10 +11,11 @@
 |
 */
 
-Broadcast::channel('App.Admin.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
-});
+use Illuminate\Support\Facades\Broadcast;
 
-Broadcast::channel('RegisterERC20', function ($user) {
-    return (int) $user->id;
+
+Broadcast::channel('App.Chat.{conversationId}', function ($user, $conversationId) {
+    return true;
+//    return \App\Models\Conversation::where('pairing_with', $user->id)->where('id', $conversationId)->count() > 0;
+//    return (int) $user->id;
 });

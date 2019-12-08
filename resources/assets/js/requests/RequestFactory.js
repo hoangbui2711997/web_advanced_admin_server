@@ -5,6 +5,8 @@ import RoleRequest from "./role_management/RoleRequest";
 import PermissionRequest from "./role_management/PermissionRequest";
 import EmployeeRequest from "./user_management/EmployeeRequest";
 import UserRequest from "./user_management/UserRequest";
+import WaitingRoomRequest from "./chat_management/WaitingRoomRequest";
+import ChatRoomRequest from "./chat_management/ChatRoomRequest";
 
 
 const requestMap = {
@@ -15,6 +17,8 @@ const requestMap = {
   PermissionRequest,
   EmployeeRequest,
   UserRequest,
+  WaitingRoomRequest,
+  ChatRoomRequest,
 };
 
 const instances = {};

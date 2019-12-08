@@ -25,6 +25,8 @@
   import DetailProductPage from "../pages/product_management/DetailProductPage";
   import ListRoute from "../pages/route/ListRoute";
   import CommonHandleModal from "../common/CommonHandleModal";
+  import ChatRoomPage from "../pages/chat_management/ChatRoomPage";
+  import WaitingRoomPage from "../pages/chat_management/waiting_chat/WaitingRoomPage";
 
   export default {
     name: 'DynamicImportModal',
@@ -54,6 +56,8 @@
         DetailProductPage,
         RolePermission: this.$parent,
         ListRoute,
+        ChatRoomPage,
+        WaitingRoomPage
       };
       return {
         innerMapControls: {},

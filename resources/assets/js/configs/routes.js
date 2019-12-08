@@ -14,7 +14,8 @@ import EditProductPage from "../pages/product_management/EditProductPage";
 import DetailProductPage from "../pages/product_management/DetailProductPage";
 import ListRoute from "../pages/route/ListRoute";
 import RolePermission from "../pages/role_management/RolePermission";
-
+import ChatRoomPage from "../pages/chat_management/ChatRoomPage";
+import WaitingRoomPage from "../pages/chat_management/waiting_chat/WaitingRoomPage";
 
 Vue.use(VueRouter);
 
@@ -88,6 +89,23 @@ export default new VueRouter({
               path: 'detail',
               component: DetailProductPage,
               name: 'DetailProductPage:id'
+            },
+          ]
+        },
+        {
+          path: 'chat-management/',
+          name: 'List::ChatManagement',
+          component: WrapPage,
+          children: [
+            {
+              path: 'waiting',
+              component: WaitingRoomPage,
+              name: 'WaitingRoomPage'
+            },
+            {
+              path: 'chat-room',
+              component: ChatRoomPage,
+              name: 'ChatRoomPage'
             },
           ]
         },

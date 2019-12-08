@@ -80,6 +80,24 @@
             ],
           },
           {
+            text: 'side_bar.chat_management',
+            route_name: 'ChatManagement',
+            openLink: false,
+            activeMenu: false,
+            sub_list: [
+              {
+                text: 'Waiting Room',
+                link: '/chat-management/waiting',
+                name: 'WaitingRoomPage'
+              },
+              {
+                text: 'Chat Room',
+                link: '/chat-management/chat-room',
+                name: 'ChatRoomPage'
+              },
+            ],
+          },
+          {
             text: 'side_bar.role_management',
             route_name: 'RoleManagement',
             openLink: false,

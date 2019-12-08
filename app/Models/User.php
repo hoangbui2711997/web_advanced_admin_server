@@ -60,8 +60,6 @@ class User extends Authenticatable
 
     public function fromDateTime($value)
     {
-        Log::warning('$value');
-        Log::warning($value);
         return empty($value) ? $value :
             substr(
                 $this->asDateTime($value)->format(
@@ -71,5 +69,10 @@ class User extends Authenticatable
                 (strlen($this->asDateTime($value)->format(
                         $this->getDateFormat()
                     )) - 3));
+    }
+
+    public function conversation()
+    {
+        return $this->hasOne(Conversation::class, 'user_id', 'id');
     }
 }

@@ -44,6 +44,7 @@ return [
         'api' => [
             'driver' => 'passport',
             'provider' => 'custom-eloquent',
+            'hash' => false,
         ],
     ],
 
@@ -93,5 +94,4 @@ return [
             'expire' => 60,
         ],
     ],
-
 ];

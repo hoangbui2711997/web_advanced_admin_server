@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Consts;
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
+use App\Models\Conversation;
 use App\Models\Permission;
 use App\Models\Product;
 use App\Models\User;
@@ -33,14 +35,27 @@ class AdminController extends Controller
             'password' => bcrypt($request->password),
             'activation_token' => Str::random(60),
         ]);
+        $isUser = $request->input('is_user', 0) > 0;
+
         try {
             DB::beginTransaction();
             $user->save();
+
             $userRole = new UserRole([
                 'user_id' => $user->id,
-                'role_id' => $request->input('is_user', 0) > 0 ? Consts::$ROLE_USER : Consts::$ROLE_EMPLOYEE,
+                'role_id' => $isUser ? Consts::$ROLE_USER : Consts::$ROLE_EMPLOYEE,
             ]);
             $userRole->save();
+
+            if ($isUser) {
+                $cart = new Cart(['user_id' => $user->id, 'total' => 0]);
+                $cart->save();
+                $conversation = new Conversation([
+                    'user_id' => $user->id
+                ]);
+                $conversation->save();
+            }
+
 //        $avatar = Avatar::create($user->name)->getImageObject()->encode('png');
 //        Storage::put('avatars/'.$user->id.'/avatar.png', (string) $avatar);
             DB::commit();

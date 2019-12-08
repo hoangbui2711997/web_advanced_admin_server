@@ -77,11 +77,11 @@
                      style="margin: 7px 15px;"
                      :id="childPermission.name"
                      v-model="params.checkRolePermissions[role.name][_.last(`${permission.name}`.split('::'))][childPermission.name.split(':')[0]]['checked']">
-              <control class="button is-primary is-small"
-                       @click.native="controlDetailPermissionHandle(_.last(`${permission.name}`.split('::')), childPermission.name.split(':')[0])"
+              <button class="button is-primary is-small"
+                       @click="controlDetailPermissionHandle(_.last(`${permission.name}`.split('::')), childPermission.name.split(':')[0])"
                        name="controlDetailPermissionHandle"
                        :id="`${$route.name}|control_add_role`">Detail
-              </control>
+              </button>
             </td>
           </tr>
           </tbody>
