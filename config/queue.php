@@ -36,7 +36,7 @@ return [
 
         'database' => [
             'driver' => 'database',
-            'table' => 'admin_jobs',
+            'table' => 'jobs',
             'queue' => 'default',
             'retry_after' => 90,
         ],
@@ -79,7 +79,7 @@ return [
 
     'failed' => [
         'database' => env('DB_CONNECTION', 'mysql'),
-        'table' => 'admin_failed_jobs',
+        'table' => 'failed_jobs',
     ],
 
 ];
