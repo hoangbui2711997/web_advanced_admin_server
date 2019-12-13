@@ -81,7 +81,7 @@
     },
     methods: {
       submit () {
-        this.$validator.validate().then((result) => {
+        this.$validator.validate().then(async (result) => {
           if (!result) {
             return;
           }
@@ -90,15 +90,17 @@
           }
 
           this.isLoading = true;
-
-          this.login(this.params);
+          const data = await this.login(this.params);
+          if (!!data) {
+            this.$router.push({ name: 'UserPage' });
+          }
         });
       },
-      login (params) {
-        return rf.getRequest('AdminRequest').login(params).then((data) => {
+      async login (params) {
+        return rf.getRequest('AdminRequest').login(params).then(async ({ data }) => {
           // window.location.href = '/admin/user-management/users';
           console.log(data, 'data');
-          this.$store.dispatch('initAuth', data);
+          return await this.$store.dispatch('initAuth', data);
         }).catch((error) => {
           this.loadErrorsFromServer(error.response.data.errors);
         }).finally(() => {

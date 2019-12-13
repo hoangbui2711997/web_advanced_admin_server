@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('common/login', 'Auth\LoginController@login');
+Route::post('common/logout', 'Auth\LoginController@logout')->middleware('auth:api');
 
 Route::group(['middleware' => 'auth:api', 'namespace' => 'API'], function () {
     Route::group(['prefix' => 'common'], function () {

@@ -6,7 +6,11 @@ export default class AdminRequest extends BaseRequest {
   }
 
   login (params) {
-    return this.post('login', params, false);
+    return this.post('login', params);
+  }
+
+  login () {
+    return this.post('logout');
   }
 
   register(params) {

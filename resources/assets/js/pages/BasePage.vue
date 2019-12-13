@@ -21,12 +21,10 @@
           <i class="iconmo-user icon-user" />
           <span class="email">{{user.email}}</span>
         </div>
-        <form action="/admin/logout" method="POST">
-          <input type="hidden" name="_token" :value="csrfToken"/>
-          <button type="submit" class="btn-logout">
-            {{ $t('logout') }}
-          </button>
-        </form>
+        <input type="hidden" name="_token" :value="csrfToken"/>
+        <button  class="btn-logout" @click="logout">
+          {{ $t('logout') }}
+        </button>
       </div>
     </header>
     <div class="main-content">
@@ -78,6 +76,13 @@
      this.getDataUser();
     },
     methods : {
+      async logout () {
+        if (this.isAuthenticated) {
+          await rf.getRequest('AdminRequest').logout();
+        }
+
+        await this.$router.push('login');
+      },
       toggleSideBar() {
         this.isShowSideBar = !this.isShowSideBar;
       },

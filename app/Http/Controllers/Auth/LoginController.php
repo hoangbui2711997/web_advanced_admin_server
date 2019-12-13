@@ -50,8 +50,16 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
+    public function logout (Request $request)
+    {
+        Auth::user()->token()->revoke();
+        // $request->user()->token()->delete(); 
+        return true;
+    }
+
     public function login(Request $request)
     {
+        logger('@login');
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',

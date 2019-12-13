@@ -40,7 +40,9 @@ class Consts
     public static $API_COMMON = [
         'api/common/get-current-user',
         'api/common/user',
-        'api/common/list'
+        'api/common/list',
+        'api/common/login',
+        'api/common/logout',
     ];
 
     public static $UPLOAD_PATH = '/public/';

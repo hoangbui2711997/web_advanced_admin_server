@@ -24,6 +24,7 @@ const store = new Vuex.Store({
   },
   mutations: {
     updateAuthorize (state, payload) {
+      console.log('data_1', payload);
       state.authorize = payload;
       state.permissionMenu = _.reduce(payload, (result, permission) => {
         if (_.isEmpty(result[permission.menu])) {
@@ -38,6 +39,8 @@ const store = new Vuex.Store({
 
         return result;
       }, {});
+      console.log(state.permissionMenu);
+      
     },
     emptyAuthorize (state) {
       state.authorize = {};
@@ -45,7 +48,7 @@ const store = new Vuex.Store({
       state.permissionPage = {};
       state.permissionPageAction = {};
     },
-    setToken (state, { token }) {
+    setToken (state, token) {
       state.token = token;
       window.axios.defaults.headers.common['Authorization'] = token;
     },
@@ -64,16 +67,19 @@ const store = new Vuex.Store({
       })
     },
     async getCurrentUserInfo (context) {
+      console.log('data_0');
       const { data } = await rf.getRequest('AdminRequest').getUser();
       this.commit('emptyAuthorize');
+      console.log('data_0_1');
       this.commit('updateAuthorize', data);
+      console.log('data_2');
       return !!data;
     },
     async loadAuth (context) {
       // const { data } = await rf.getRequest('AdminRequest').getUser();
       const token = window.localStorage.getItem('token');
       if (!!token) {
-        this.commit('setToken', { token });
+        this.commit('setToken', token);
       }
 
       return !!token;
@@ -82,7 +88,14 @@ const store = new Vuex.Store({
       try {
         const result = await this.dispatch('loadAuth');
         if (result) {
-          return !!await this.dispatch('getCurrentUserInfo') || true;
+          const data = await this.dispatch('getCurrentUserInfo');
+          if (!!data) {
+            console.log(data, 'data_3');
+            
+            await window.app.$router.push({ name: 'UserPage' });
+          }
+
+          return true;
         }
 
         return true;

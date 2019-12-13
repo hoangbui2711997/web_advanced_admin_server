@@ -18,7 +18,7 @@ Route::get('/admin/login', 'HomeController@login')->name('login');
 Route::post('/admin/common/login', 'Auth\LoginController@login');
 Route::post('/admin/common/register', 'Auth\RegisterController@signup');
 
-Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'auth:api'], function () {
     Route::get('/', 'HomeController@index')->name('admin.home');
     Route::get('/{view?}', 'HomeController@index')->where('view', '(.*)');
     Route::post('/logout', 'Auth\LoginController@logout');
