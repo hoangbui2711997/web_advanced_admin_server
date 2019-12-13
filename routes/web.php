@@ -10,21 +10,23 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-    return redirect()->route('admin.home');
-});
+//Route::get('/', function () {
+//    return redirect()->route('admin.home');
+//});
 
-Route::get('/admin/login', 'HomeController@login')->name('login');
-Route::post('/admin/common/login', 'Auth\LoginController@login');
-Route::post('/admin/common/register', 'Auth\RegisterController@signup');
+//Route::get('/admin/login', 'HomeController@login')->name('login');
+//Route::post('/admin/common/login', 'Auth\LoginController@login');
+//Route::post('/admin/common/register', 'Auth\RegisterController@signup');
 
-Route::group(['prefix' => 'admin', 'middleware' => 'auth:api'], function () {
-    Route::get('/', 'HomeController@index')->name('admin.home');
-    Route::get('/{view?}', 'HomeController@index')->where('view', '(.*)');
-    Route::post('/logout', 'Auth\LoginController@logout');
-});
+//Route::group(['prefix' => 'admin', 'middleware' => 'auth:api'], function () {
+//    Route::get('/', 'HomeController@index')->name('admin.home');
+Route::get('/', 'HomeController@index');
+
+Route::get('/{view?}', 'HomeController@index')->where('view', '(.*)');
+//    Route::post('/logout', 'Auth\LoginController@logout');
+//});
 
 
-Route::get('404', 'HomeController@showNotFoundPage');
-Route::get('auth', 'HomeController@authUrl')->middleware('auth');
+//Route::get('404', 'HomeController@showNotFoundPage');
+//Route::get('auth', 'HomeController@authUrl')->middleware('auth');
 

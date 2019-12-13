@@ -2,16 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Consts;
-use App\Utils;
-use Illuminate\Http\Request;
-use Auth;
-use Cache;
-use DB;
-use Exception;
-use Log;
-use Crypt;
-
 class HomeController extends Controller
 {
     /**
@@ -21,7 +11,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['login']]);
+//        $this->middleware('auth:api', ['except' => ['login']]);
     }
 
     /**
@@ -29,10 +19,10 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function login()
-    {
-        return view('layouts.app');
-    }
+//    public function login()
+//    {
+//        return view('layouts.app');
+//    }
 
     /**
      * Show the application dashboard.
@@ -44,14 +34,14 @@ class HomeController extends Controller
         return view('layouts.app');
     }
 
-    public function showNotFoundPage()
-    {
-        return view('errors.404');
-    }
+//    public function showNotFoundPage()
+//    {
+//        return view('errors.404');
+//    }
 
-    public function authUrl(Request $request)
-    {
-        $url = $request->input('url');
-        return redirect($url);
-    }
+//    public function authUrl(Request $request)
+//    {
+//        $url = $request->input('url');
+//        return redirect($url);
+//    }
 }

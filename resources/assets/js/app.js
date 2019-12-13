@@ -85,6 +85,7 @@ Vue.mixin({
 });
 
 window.store = store;
+store.dispatch('init');
 // window.GlobalSocket = new GlobalSocket();
 
 // router.beforeEach((to, from, next) => {
@@ -96,14 +97,10 @@ window.app = new Vue({
   i18n,
   store,
   router,
-  created () {
-    // this.$store.dispatch('init');
-  },
   render (createElement) {
     return createElement(App);
   },
 }).$mount('#admin-app');
 
 // if (window.isAuthenticated) {
-window.app.$store.dispatch('init');
 // }

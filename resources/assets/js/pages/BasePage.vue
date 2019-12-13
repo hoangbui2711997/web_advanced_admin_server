@@ -50,41 +50,48 @@
         isShowSideBar: false,
         user: {} ,
         csrfToken: window.csrf_token,
-        maintenanceModeSetting: 0,
       }
     },
     computed: {
       ...mapGetters(['getPermissionPage']),
+      permissionPage () {
+        return Object.keys(this.getPermissionPage);
+      },
     },
-    beforeCreate () {
-      window.setTimeout(() => {
-        if (!_.some(this.getPermissionPage, (page) => `${this.$route.name}`.includes(page))) {
+    watch: {
+      getPermissionPage () {
+        if (this._.isEmpty(this.permissionPage)) {
+          return;
+        }
+        if (!_.some(this.permissionPage, (page) => `${this.$route.name}`.includes(page))) {
           this.$router.push({ name: 'ListRoute' })
         }
-
-        this.$router.beforeEach((to, from, next) => {
-          if (_.some(this.getPermissionPage, (page) => page === _.first(`${to.name}`.split(':')))) {
-            next();
-          } else {
-            if (this.isAuthenticated) {
-              this.showError("Unauthorized page");
-              next({ name: 'ListRoute' });
-            }
-            next({ name: 'login' });
+      },
+    },
+    beforeCreate () {
+      this.$router.beforeEach((to, from, next) => {
+        if (_.some(this.permissionPage, (page) => page === _.first(`${to.name}`.split(':')))) {
+          next();
+        } else {
+          if (this.isAuthenticated) {
+            this.showError("Unauthorized page");
+            next({ name: 'ListRoute' });
           }
-        })
-      }, 1000);
+          next();
+        }
+      });
     },
     mounted () {
-     this.getDataUser();
+      this.getDataUser();
     },
     methods : {
       async logout () {
-        if (this.isAuthenticated) {
-          await rf.getRequest('AdminRequest').logout();
+        const r1 = await rf.getRequest('AdminRequest').logout();
+        const r2 = await this.$store.dispatch('logout');
+        console.log(r1 && r2, "r1 && r2");
+        if (r1 && r2) {
+          this.$router.push({ name: 'login' });
         }
-
-        await this.$store.dispatch('logout');
       },
       toggleSideBar() {
         this.isShowSideBar = !this.isShowSideBar;

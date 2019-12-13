@@ -13,18 +13,20 @@ const store = new Vuex.Store({
   },
   getters: {
     getPermissionMenu (state) {
-      return Object.keys(state.permissionMenu);
+      return state.permissionMenu;
     },
     getPermissionPage (state) {
-      return Object.keys(state.permissionPage);
+      return state.permissionPage;
     },
     getPermissionPageAction: (state) => (page) => {
       return state.permissionPage[page];
     },
+    isAuthenticated(state) {
+      return !!state.token;
+    },
   },
   mutations: {
     updateAuthorize (state, payload) {
-      console.log('data_1', payload);
       state.authorize = payload;
       state.permissionMenu = _.reduce(payload, (result, permission) => {
         if (_.isEmpty(result[permission.menu])) {
@@ -39,9 +41,6 @@ const store = new Vuex.Store({
 
         return result;
       }, {});
-      console.log(state.permissionMenu, 'state.permissionMenu');
-      console.log(state.permissionPage, 'state.permissionMenu');
-
     },
     emptyAuthorize (state) {
       state.authorize = {};
@@ -65,21 +64,15 @@ const store = new Vuex.Store({
       localStorage.setItem('expired_at', expired_at);
     },
     async initAuth ({ dispatch, state, commit }, credential) {
-      return new Promise(resolve => {
-        const { access_token } = credential;
-        commit('setToken', "Bearer " + access_token);
-        dispatch('saveToken', credential);
-        resolve(state.token);
-      })
+      const { access_token } = credential;
+      commit('setToken', "Bearer " + access_token);
+      dispatch('saveToken', credential);
+      return this.dispatch('getCurrentUserInfo');
     },
     async getCurrentUserInfo (context) {
-      console.log('data_0');
       const { data } = await rf.getRequest('AdminRequest').getUser();
       this.commit('emptyAuthorize');
-      console.log('data_0_1');
       this.commit('updateAuthorize', data);
-      console.log('data_2');
-      return !!data;
     },
     async loadAuth (context) {
       // const { data } = await rf.getRequest('AdminRequest').getUser();
@@ -94,17 +87,17 @@ const store = new Vuex.Store({
       try {
         const result = await this.dispatch('loadAuth');
         if (result) {
-          const data = await this.dispatch('getCurrentUserInfo');
-          if (!!data) {
-            console.log(data, 'data_3');
+          await this.dispatch('getCurrentUserInfo');
+
+          if (window.app.$route.name === 'login') {
             await window.app.$router.push({ name: 'UserPage' });
           }
-
           return true;
         }
 
         return true;
       } catch (e) {
+        console.log(e, "e");
         this.dispatch('logout');
       }
     },
@@ -113,6 +106,7 @@ const store = new Vuex.Store({
       localStorage.removeItem('expired_at');
       commit('forgetToken');
       commit('emptyAuthorize');
+      return true;
     },
   },
 });

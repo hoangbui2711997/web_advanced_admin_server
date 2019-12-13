@@ -94,17 +94,13 @@
         });
       },
       async login (params) {
-        alert('1');
-        return rf.getRequest('AdminRequest').login(params).then(async ({ data }) => {
+        return rf.getRequest('AdminRequest').login(params).then(({ data }) => {
           // window.location.href = '/admin/user-management/users';
-          console.log(data, 'data');
-          alert(data);
-          return await this.$store.dispatch('initAuth', data);
+          this.$store.dispatch('initAuth', data);
+          this.$router.push({ name: 'UserPage' });
         }).catch((error) => {
-          alert('2');
           this.loadErrorsFromServer(error.response.data.errors);
         }).finally(() => {
-          alert('3');
           this.isLoading = false;
         });
       },

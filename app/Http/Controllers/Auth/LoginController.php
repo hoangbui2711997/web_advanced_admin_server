@@ -54,7 +54,7 @@ class LoginController extends Controller
     {
         Auth::user()->token()->revoke();
         // $request->user()->token()->delete(); 
-        return true;
+        return 'ok';
     }
 
     public function login(Request $request)

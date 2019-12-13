@@ -18,11 +18,12 @@
                 <a href="javascript:void(0)" v-if="!subItem.link || subItem.link === 'javascript:void(0)'" class="link">
                   {{ $t(subItem.text) }}
                 </a>
-                <router-link v-else :to="subItem.link"
-                             class="link"
-                             :class="{active: subItem.link.includes($route.meta.sub)}">
+                <a v-else
+                   @click="changeRoute(subItem.name)"
+                   class="link"
+                   :class="{active: subItem.link.includes($route.meta.sub)}">
                   {{ $t(subItem.text) }}
-                </router-link>
+                </a>
               </li>
             </ul>
           </div>
@@ -128,15 +129,20 @@
       }
     },
     computed: {
-      ...mapGetters(['getPermissionMenu', 'getPermissionPage', 'getPermissionPageAction'])
+      ...mapGetters(['getPermissionMenu', 'getPermissionPage'])
     },
     created() {
       this.initMenu(this.$route.path);
-      this.updateSideBar();
     },
     watch: {
       '$route'(to) {
         this.initMenu(to.path);
+      },
+      getPermissionMenu () {
+        this.updateSideBar();
+      },
+      getPermissionPage () {
+        this.updateSideBar();
       },
     },
     mounted() {
@@ -149,13 +155,19 @@
       });
     },
     methods: {
+      changeRoute (name) {
+        console.log(name, "name");
+        this.$router.push({ name });
+      },
       updateSideBar () {
         this.$nextTick(() => {
-          console.log(this.getPermissionMenu, "this.getPermissionMenu");
+          const permissionMenu = Object.keys(this.getPermissionMenu);
+          const permissionPage = Object.keys(this.getPermissionPage);
+
           this.listMenuClone = _.filter(JSON.parse(JSON.stringify(this.listMenu)), (menu) => {
-            if(_.some(this.getPermissionMenu, (permissionMenu) => permissionMenu === menu.route_name)) {
+            if(_.some(permissionMenu, (permissionMenu) => permissionMenu === menu.route_name)) {
               menu.sub_list = _.filter(menu.sub_list, ({ name }) => {
-                return _.some(this.getPermissionPage, (e) => e === name)
+                return _.some(permissionPage, (e) => e === name)
               });
               return true;
             }
@@ -164,7 +176,6 @@
         });
       },
       initMenu (link) {
-        console.log("@initMenu");
         _.forEach(this.listMenu, (menu, key) => {
           this.$set(this.listMenu[key], 'activeMenu', false);
           this.$set(this.listMenu[key], 'openLink', false);
