@@ -103,6 +103,7 @@ window.app = new Vue({
     return createElement(App);
   },
 }).$mount('#admin-app');
-if (window.isAuthenticated) {
-  window.app.$store.dispatch('init');
-}
+
+// if (window.isAuthenticated) {
+window.app.$store.dispatch('init');
+// }

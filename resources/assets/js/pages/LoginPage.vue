@@ -64,8 +64,6 @@
 
 <script>
   import rf from '../requests/RequestFactory';
-  import Dictionary from '../dictionary';
-  import { Validator } from 'vee-validate';
   import InputOnlyNumber from '../common/InputOnlyNumber.vue';
 
   export default {
@@ -97,9 +95,10 @@
         });
       },
       login (params) {
-        return rf.getRequest('AdminRequest').login(params).then(() => {
-          window.location.href = '/admin/user-management/users';
-          sessionStorage.setItem('hasLogin', '_');
+        return rf.getRequest('AdminRequest').login(params).then((data) => {
+          // window.location.href = '/admin/user-management/users';
+          console.log(data, 'data');
+          this.$store.dispatch('initAuth', data);
         }).catch((error) => {
           this.loadErrorsFromServer(error.response.data.errors);
         }).finally(() => {

@@ -9,6 +9,7 @@ const store = new Vuex.Store({
     permissionMenu: {},
     permissionPage: {},
     permissionPageAction: {},
+    token: '',
   },
   getters: {
     getPermissionMenu (state) {
@@ -44,16 +45,55 @@ const store = new Vuex.Store({
       state.permissionPage = {};
       state.permissionPageAction = {};
     },
+    setToken (state, { token }) {
+      state.token = token;
+      window.axios.defaults.headers.common['Authorization'] = token;
+    },
   },
   actions: {
+    saveToken ({ state }, { expired_at }) {
+      localStorage.setItem('token', state.token);
+      localStorage.setItem('expired_at', expired_at);
+    },
+    async initAuth ({ dispatch, state, commit }, credential) {
+      return new Promise(resolve => {
+        const { access_token } = credential;
+        commit('setToken', "Bearer " + access_token);
+        dispatch('saveToken', credential);
+        resolve(state.token);
+      })
+    },
     async getCurrentUserInfo (context) {
       const { data } = await rf.getRequest('AdminRequest').getUser();
       this.commit('emptyAuthorize');
       this.commit('updateAuthorize', data);
       return !!data;
     },
+    async loadAuth (context) {
+      // const { data } = await rf.getRequest('AdminRequest').getUser();
+      const token = window.localStorage.getItem('token');
+      if (!!token) {
+        this.commit('setToken', { token });
+      }
+
+      return !!token;
+    },
     async init (context) {
-      return !!await this.dispatch('getCurrentUserInfo') || true;
+      try {
+        const result = await this.dispatch('loadAuth');
+        if (result) {
+          return !!await this.dispatch('getCurrentUserInfo') || true;
+        }
+
+        return true;
+      } catch (e) {
+        this.dispatch('logout');
+      }
+    },
+    logout ({ commit }) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('expired_at');
+      commit('setTokenEmpty');
     },
   },
 });
