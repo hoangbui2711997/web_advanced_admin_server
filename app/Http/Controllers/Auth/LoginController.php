@@ -69,11 +69,11 @@ class LoginController extends Controller
 //        $credentials['active'] = 1;
 //        $credentials['deleted_at'] = null;
         $user = User::where('email', $request->input('email'))->first();
-        if($user === null || $user->isUser() || !Auth::attempt($credentials))
+        if($user === null || $user->isUser() || !Auth::guard('web')->attempt($credentials))
             return response()->json([
                 'message' => 'Unauthorized'
             ], 401);
-        $user = $request->user();
+
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
         if ($request->remember_me)

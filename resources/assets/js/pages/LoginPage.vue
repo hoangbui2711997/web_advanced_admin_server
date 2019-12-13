@@ -90,20 +90,21 @@
           }
 
           this.isLoading = true;
-          const data = await this.login(this.params);
-          if (!!data) {
-            this.$router.push({ name: 'UserPage' });
-          }
+          await this.login(this.params);
         });
       },
       async login (params) {
+        alert('1');
         return rf.getRequest('AdminRequest').login(params).then(async ({ data }) => {
           // window.location.href = '/admin/user-management/users';
           console.log(data, 'data');
+          alert(data);
           return await this.$store.dispatch('initAuth', data);
         }).catch((error) => {
+          alert('2');
           this.loadErrorsFromServer(error.response.data.errors);
         }).finally(() => {
+          alert('3');
           this.isLoading = false;
         });
       },

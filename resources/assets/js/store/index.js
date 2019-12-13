@@ -39,8 +39,9 @@ const store = new Vuex.Store({
 
         return result;
       }, {});
-      console.log(state.permissionMenu);
-      
+      console.log(state.permissionMenu, 'state.permissionMenu');
+      console.log(state.permissionPage, 'state.permissionMenu');
+
     },
     emptyAuthorize (state) {
       state.authorize = {};
@@ -51,6 +52,11 @@ const store = new Vuex.Store({
     setToken (state, token) {
       state.token = token;
       window.axios.defaults.headers.common['Authorization'] = token;
+      window.Echo.connector.options.auth.headers['Authorization'] = token;
+    },
+    forgetToken (state) {
+      state.token = '';
+      window.axios.defaults.headers.common['Authorization'] = '';
     },
   },
   actions: {
@@ -91,7 +97,6 @@ const store = new Vuex.Store({
           const data = await this.dispatch('getCurrentUserInfo');
           if (!!data) {
             console.log(data, 'data_3');
-            
             await window.app.$router.push({ name: 'UserPage' });
           }
 
@@ -106,7 +111,8 @@ const store = new Vuex.Store({
     logout ({ commit }) {
       localStorage.removeItem('token');
       localStorage.removeItem('expired_at');
-      commit('setTokenEmpty');
+      commit('forgetToken');
+      commit('emptyAuthorize');
     },
   },
 });

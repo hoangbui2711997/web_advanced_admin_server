@@ -66,8 +66,11 @@
           if (_.some(this.getPermissionPage, (page) => page === _.first(`${to.name}`.split(':')))) {
             next();
           } else {
-            this.showError("Unauthorized page");
-            next({ name: 'ListRoute' });
+            if (this.isAuthenticated) {
+              this.showError("Unauthorized page");
+              next({ name: 'ListRoute' });
+            }
+            next({ name: 'login' });
           }
         })
       }, 1000);
@@ -81,7 +84,7 @@
           await rf.getRequest('AdminRequest').logout();
         }
 
-        await this.$router.push('login');
+        await this.$store.dispatch('logout');
       },
       toggleSideBar() {
         this.isShowSideBar = !this.isShowSideBar;

@@ -132,13 +132,11 @@
     },
     created() {
       this.initMenu(this.$route.path);
+      this.updateSideBar();
     },
     watch: {
       '$route'(to) {
         this.initMenu(to.path);
-      },
-      getPermissionMenu () {
-        this.updateSideBar();
       },
     },
     mounted() {
@@ -153,6 +151,7 @@
     methods: {
       updateSideBar () {
         this.$nextTick(() => {
+          console.log(this.getPermissionMenu, "this.getPermissionMenu");
           this.listMenuClone = _.filter(JSON.parse(JSON.stringify(this.listMenu)), (menu) => {
             if(_.some(this.getPermissionMenu, (permissionMenu) => permissionMenu === menu.route_name)) {
               menu.sub_list = _.filter(menu.sub_list, ({ name }) => {
@@ -165,6 +164,7 @@
         });
       },
       initMenu (link) {
+        console.log("@initMenu");
         _.forEach(this.listMenu, (menu, key) => {
           this.$set(this.listMenu[key], 'activeMenu', false);
           this.$set(this.listMenu[key], 'openLink', false);

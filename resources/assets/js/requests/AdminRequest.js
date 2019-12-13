@@ -9,7 +9,7 @@ export default class AdminRequest extends BaseRequest {
     return this.post('login', params);
   }
 
-  login () {
+  logout () {
     return this.post('logout');
   }
 
