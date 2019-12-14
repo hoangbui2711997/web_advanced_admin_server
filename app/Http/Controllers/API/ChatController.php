@@ -36,8 +36,9 @@ class ChatController extends Controller
     {
         $limit = $request->input('limit', Consts::DEFAULT_PER_PAGE);
         $id = $request->input('id');
+        $userId = Conversation::find($id)->user_id;
 
-        $builder = UserConversation::with('user')->where('user_id', $id)
+        $builder = UserConversation::with('user')->where('user_id', $userId)
             ->union(
                 EmployeeConversation::with('user')->where('conversation_id', $id)
                     ->selectRaw("message, employee_id, 'employee' as type, created_at")
